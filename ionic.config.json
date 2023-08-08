@@ -1,0 +1,7 @@
+{
+  "name": "NutriCoach",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
