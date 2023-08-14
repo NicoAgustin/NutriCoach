@@ -1,12 +1,3 @@
-.titulo{
-  color: black;
-  text-align: center;
-  font-size: 30px;
-  padding-top: 20px;
-  font-weight: bold;
-
-}
-
 ion-item {
     --padding-start: 0;
   }
@@ -28,12 +19,11 @@ ion-item {
   swiper-slide {
     //display:flex;
     display: block;
-    padding-top: 10%;;
+    padding-top: 30%;;
     width: 100%;
     height: 100%;
     align-items: center;
     justify-content: center;
-    
     font-size: 18px;
   }
 
