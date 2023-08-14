@@ -32,6 +32,11 @@ export class HomePage implements OnInit{
       this.nutri=''
     }
 
+    ionViewWillEnter(){
+      this.modelLogin.user = ''
+      this.modelLogin.contrasena = ''
+    }
+
     iniciar(){
       console.log("Nombre de usuario: " + this.modelLogin.user)
       console.log("Contraseña: " + this.modelLogin.contrasena)

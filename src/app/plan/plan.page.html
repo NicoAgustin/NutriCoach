@@ -1,13 +1,179 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>plan</ion-title>
-  </ion-toolbar>
-</ion-header>
+<h1 class="titulo">Plan semanal recomendado</h1>
+<swiper-container
+[pagination]="true">
+  <swiper-slide>
+    <ion-card color="success">
+      <ion-card-header>
+        <ion-card-title>Lunes</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row *ngFor="let unplan of miPlan">
+            <ion-col size="10">
+              <ion-item color="success">
+                <ion-label>
+                  <h2>{{ unplan.tipo }}</h2>
+                  <p>{{ unplan.contenido }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col class="icono" size="2">
+              <ion-icon name="reload-outline"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </swiper-slide>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">plan</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+  <swiper-slide>
+    <ion-card color="success">
+      <ion-card-header>
+        <ion-card-title>Martes</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row *ngFor="let unplan of miPlan">
+            <ion-col size="10">
+              <ion-item color="success">
+                <ion-label>
+                  <h2>{{ unplan.tipo }}</h2>
+                  <p>{{ unplan.contenido }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col class="icono" size="2">
+              <ion-icon name="reload-outline"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </swiper-slide>
+
+  <swiper-slide>
+    <ion-card color="success">
+      <ion-card-header>
+        <ion-card-title>Miércoles</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row *ngFor="let unplan of miPlan">
+            <ion-col size="10">
+              <ion-item color="success">
+                <ion-label>
+                  <h2>{{ unplan.tipo }}</h2>
+                  <p>{{ unplan.contenido }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col class="icono" size="2">
+              <ion-icon name="reload-outline"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </swiper-slide>
+
+  <swiper-slide>
+    <ion-card color="success">
+      <ion-card-header>
+        <ion-card-title>Jueves</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row *ngFor="let unplan of miPlan">
+            <ion-col size="10">
+              <ion-item color="success">
+                <ion-label>
+                  <h2>{{ unplan.tipo }}</h2>
+                  <p>{{ unplan.contenido }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col class="icono" size="2">
+              <ion-icon name="reload-outline"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </swiper-slide>
+
+  <swiper-slide>
+    <ion-card color="success">
+      <ion-card-header>
+        <ion-card-title>Viernes</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row *ngFor="let unplan of miPlan">
+            <ion-col size="10">
+              <ion-item color="success">
+                <ion-label>
+                  <h2>{{ unplan.tipo }}</h2>
+                  <p>{{ unplan.contenido }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col class="icono" size="2">
+              <ion-icon name="reload-outline"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </swiper-slide>
+
+  <swiper-slide>
+    <ion-card color="success">
+      <ion-card-header>
+        <ion-card-title>Sábado</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row *ngFor="let unplan of miPlan">
+            <ion-col size="10">
+              <ion-item color="success">
+                <ion-label>
+                  <h2>{{ unplan.tipo }}</h2>
+                  <p>{{ unplan.contenido }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col class="icono" size="2">
+              <ion-icon name="reload-outline"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </swiper-slide>
+
+  <swiper-slide>
+    <ion-card color="success">
+      <ion-card-header>
+        <ion-card-title>Domingo</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row *ngFor="let unplan of miPlan">
+            <ion-col size="10">
+              <ion-item color="success">
+                <ion-label>
+                  <h2>{{ unplan.tipo }}</h2>
+                  <p>{{ unplan.contenido }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col class="icono" size="2">
+              <ion-icon name="reload-outline"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </swiper-slide>
+</swiper-container>
+
