@@ -1,6 +1,9 @@
 import { Component, OnInit} from '@angular/core';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
+
 
 
 @Component({
@@ -20,6 +23,7 @@ export class HomePage implements OnInit{
  correo: string = ''
  pass: string = ''
  nutri: string = ''
+ fotoTitulo: any = '';
 
 
   constructor(private router: Router) {}
@@ -102,13 +106,30 @@ const { value: email } = await Swal.fire({
     }
 
     registrar(){
-     Swal.fire({
+      Swal.fire({
+        showCancelButton: true,
+        confirmButtonText: "Soy Nutricionista",
+        cancelButtonText: "Soy Paciente",
+        heightAuto: false,
+      }).then((result)=>{
+        if(result.isConfirmed){
+          this.registrarNutri()
+        }
+        if(result.isDismissed){
+          this.registrarPaciente()
+        }
+      })
+
+    }
+
+    registrarPaciente(){
+      Swal.fire({
         title: 'Complete sus datos',
         heightAuto: false,
         html:
           '<input value="'+this.correo+'" id="swal-input1" class="swal2-input" placeholder= \'Correo\' >' +
           '<input type="password" value="'+this.pass+'" id="swal-input2" class="swal2-input" placeholder= \'Contraseña\'>' +
-          '<input type="text" value="'+this.nutri+'" id="swal-input3" class="swal2-input" placeholder= \'Nutricionista referente\'>',
+          '<input type="text" value="'+this.nutri+'" id="swal-input3" class="swal2-input" placeholder= \'Mail de nutricionista\'>',
         focusConfirm: false,
         showCancelButton: true,
         reverseButtons: true,
@@ -121,13 +142,13 @@ const { value: email } = await Swal.fire({
                   }
       }).then((result) => {
         if(result.isConfirmed){
-          if(!this.emailRegex.test(this.correo)){
+          if(!this.emailRegex.test(this.correo) || !this.emailRegex.test(this.nutri)){
             Swal.fire({
              icon:'error',
              text: 'Ingrese un correo válido',
              heightAuto: false
             }).then(() => {
-             this.registrar()
+             this.registrarPaciente()
             }
             )
            } else if( !this.correo || !this.pass || !this.nutri){
@@ -136,7 +157,7 @@ const { value: email } = await Swal.fire({
                text: 'Debe completar todos los campos',
                heightAuto: false
               }).then(() => {
-               this.registrar()
+               this.registrarPaciente()
               }
               )
            } else{
@@ -155,6 +176,103 @@ const { value: email } = await Swal.fire({
         }
       })
     }
+
+
+
+    registrarNutri(){
+     Swal.fire({
+        title: 'Complete sus datos',
+        heightAuto: false,
+        html:
+          '<input value="'+this.correo+'" id="swal-input1" class="swal2-input" placeholder= \'Correo\' >' +
+          '<input type="password" value="'+this.pass+'" id="swal-input2" class="swal2-input" placeholder= \'Contraseña\'>' +
+          '<input type="text" value="'+this.nutri+'" id="swal-input3" class="swal2-input" placeholder= \'Matrícula\'>',
+        focusConfirm: false,
+        showCancelButton: true,
+        reverseButtons: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+        preConfirm: () => {
+            this.correo = (document.getElementById('swal-input1') as HTMLInputElement).value
+            this.pass =  (document.getElementById('swal-input2') as HTMLInputElement).value
+            this.nutri = (document.getElementById('swal-input3') as HTMLInputElement).value
+                  }
+      }).then((result) => {
+        if(result.isConfirmed){
+          if(!this.emailRegex.test(this.correo)){
+            Swal.fire({
+             icon:'error',
+             text: 'Ingrese un correo válido',
+             heightAuto: false
+            }).then(() => {
+             this.registrarNutri()
+            }
+            )
+           } else if( !this.correo || !this.pass || !this.nutri){
+             Swal.fire({
+               icon:'error',
+               text: 'Debe completar todos los campos',
+               heightAuto: false
+              }).then(() => {
+               this.registrarNutri()
+              }
+              )
+           } else{
+            //ACA SE DEBE REGISTRAR AL USUARIO
+            this.registrarNutriFoto()
+            this.correo=''
+            this.pass=''
+            this.nutri=''
+            //this.notificarCorreo()
+           }
+        }
+        if(result.isDismissed){
+          this.correo=''
+          this.pass=''
+          this.nutri=''
+          Swal.close()
+        }
+      })
+    }
+
+    registrarNutriFoto(){
+      Swal.fire({
+        text: "Te pedimos una foto de tu título para validar tu identidad",
+        showCancelButton: true,
+        confirmButtonText: "Tomar foto",
+        heightAuto: false,
+        cancelButtonText: "Cancelar"
+      }).then((result) => {
+        if(result.isConfirmed){
+          this.almacenarTitulo()
+      }
+        if(result.isDismissed){
+          this.registrarNutri()
+        }
+      })
+    }
+
+    almacenarTitulo(){
+      this.tomarFotografia().then(()=> {
+        if(this.fotoTitulo != ''){
+          this.notificarCorreo()
+          this.fotoTitulo = ''
+        } else {
+          this.registrarNutriFoto()
+        }
+      })
+    }
+
+    async tomarFotografia() {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Base64,
+        source: CameraSource.Camera
+      });
+      this.fotoTitulo = image.base64String //ACÁ DEBERÍA ALMACENAR LA FOTO EN LA BD
+    }
+
 
     mensajeError(mensaje:string){
       Swal.fire({
