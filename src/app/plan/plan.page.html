@@ -1,180 +1,216 @@
 <ion-content>
 <swiper-container
-[pagination]="true">
-  <swiper-slide>
-    <ion-card color="success">
-      <ion-card-header>
-        <ion-card-title>Lunes</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row *ngFor="let unplan of miPlan">
-            <ion-col size="10">
-              <ion-item color="success">
-                <ion-label>
-                  <h2><b>{{ unplan.tipo }}</b></h2>
-                  <p>{{ unplan.contenido }}</p>
-                </ion-label>
-              </ion-item>
-            </ion-col>
-            <ion-col class="icono" size="2">
-              <ion-icon name="reload-outline"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </swiper-slide>
+class="swiperPrincipal"
+#slideplan
+[pagination]="true"
+[allowTouchMove]="false"
+>
+<swiper-slide>
 
-  <swiper-slide>
-    <ion-card color="success">
-      <ion-card-header>
-        <ion-card-title>Martes</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row *ngFor="let unplan of miPlan">
-            <ion-col size="10">
-              <ion-item color="success">
-                <ion-label>
-                  <h2><b>{{ unplan.tipo }}</b></h2>
-                  <p>{{ unplan.contenido }}</p>
-                </ion-label>
-              </ion-item>
-            </ion-col>
-            <ion-col class="icono" size="2">
-              <ion-icon name="reload-outline"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </swiper-slide>
+  <ion-card class="calendario">
+    <ion-card-subtitle class="ion-padding">Fecha de registro</ion-card-subtitle>
+    <ion-card-title>{{ registroFecha | date: 'dd/MM/yyyy' }}</ion-card-title>
+   <ion-card-content id="date">
+    <ion-icon  color="primary" size="large" name="chevron-down-circle-outline"></ion-icon>
+   </ion-card-content>
+  </ion-card>
 
-  <swiper-slide>
-    <ion-card color="success">
-      <ion-card-header>
-        <ion-card-title>Miércoles</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row *ngFor="let unplan of miPlan">
-            <ion-col size="10">
-              <ion-item color="success">
-                <ion-label>
-                  <h2><b>{{ unplan.tipo }}</b></h2>
-                  <p>{{ unplan.contenido }}</p>
-                </ion-label>
-              </ion-item>
-            </ion-col>
-            <ion-col class="icono" size="2">
-              <ion-icon name="reload-outline"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </swiper-slide>
+  <ion-popover trigger="date" >
+    <ng-template>
+        <ion-datetime #datetimeId  [showDefaultButtons]="true" doneText="Aceptar" cancelText="Cancelar" presentation="date" (ngModel)="registroFecha" (ionChange)="setDate(datetimeId.value)" locale="es-ES" max={{max}} [highlightedDates]="highlightedDates"></ion-datetime>
+    </ng-template>
+</ion-popover>
 
-  <swiper-slide>
-    <ion-card color="success">
-      <ion-card-header>
-        <ion-card-title>Jueves</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row *ngFor="let unplan of miPlan">
-            <ion-col size="10">
-              <ion-item color="success">
-                <ion-label>
-                  <h2><b>{{ unplan.tipo }}</b></h2>
-                  <p>{{ unplan.contenido }}</p>
-                </ion-label>
-              </ion-item>
-            </ion-col>
-            <ion-col class="icono" size="2">
-              <ion-icon name="reload-outline"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </swiper-slide>
+  <ion-card class="agua">
+    <ion-card-header>
+      <ion-card-subtitle>Agua</ion-card-subtitle>
+      <ion-card-title>{{ agua }} L</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col *ngIf="!hayRegistro" size="1"><ion-icon (click)="restarAgua()" color="primary" size="large" name="remove-circle-outline"></ion-icon></ion-col>
+          <ion-col class="ion-padding-start" size="10" *ngIf="agua==0"><ion-icon size="large" name="water-outline"></ion-icon></ion-col>
+          <ion-col class="ion-padding-start" size="10" *ngIf="agua">
+            <div class="ion-float-left" *ngFor="let ag of aguaArray">
+            <ion-icon size="large" color="primary" name="water"></ion-icon>
+          </div>
+          <div >
+            <ion-icon class="ion-padding-start" *ngIf="agua>=2.5" size="large" color="success" name="happy-outline"></ion-icon>
+          </div>
+          </ion-col>
+          <ion-col *ngIf="!hayRegistro" size="1"> <ion-icon (click)="sumarAgua()" color="primary" size="large" name="add-circle-outline"></ion-icon></ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card class="alimentos">
+    <ion-card-subtitle class="ion-padding">Alimentos</ion-card-subtitle>
+    <ion-card-title class="ion-padding-bottom" *ngIf="alimentosIngeridos.length == 0">No se cargaron alimentos</ion-card-title>
+    <ion-card-content *ngIf="alimentosIngeridos.length > 0" >
+      <ion-item class="alimento" *ngFor="let al of alimentosIngeridos ; let i = index">
+        <ion-icon *ngIf="!hayRegistro" (click)="borrarIngesta(i)" class="ion-padding-start" slot="start" color="danger" name="trash-outline"></ion-icon>
+        <ion-label (click)="verInfoIngesta(i)" class="ion-text-center">
+          <h2> {{al.categoria}}  ({{al.calorias}} calorías) </h2>
+          <p>{{al.contenido}}</p>
+          </ion-label>
+          <ion-icon *ngIf="!hayRegistro" (click)="editarIngesta(i)" slot="end" color="primary" name="create-outline"></ion-icon>
+      </ion-item>
+        <h1 class="ion-padding-top ion-text-center">Calorías totales: {{caloriasTotales}}</h1>
+    </ion-card-content>
+    <div [hidden]="hayRegistro">
+      <ion-button (click)="agregarAlimento()" expand="full">
+        <ion-icon size="large" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-card>
+  <ion-card class="calorias">
+    <ion-card-header>
+      <ion-card-subtitle>Calorías quemadas (kcal)</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid >
+        <ion-row>
+          <ion-col  size="1"> <ion-icon *ngIf="!hayRegistro" (click)="restarCalorias()" size="large" color="primary" name="remove-circle-outline"></ion-icon></ion-col>
+          <ion-col size="1"></ion-col>
+          <ion-col  size="8"> <ion-input class="ion-text-center inputCalorias" [(ngModel)]="caloriasQuemadas" type="number" placeholder="0"></ion-input></ion-col>
+          <ion-col size="1"></ion-col>
+          <ion-col  size="1"> <ion-icon *ngIf="!hayRegistro" (click)="sumarCalorias()" size="large" color="primary" name="add-circle-outline"></ion-icon></ion-col>
+        </ion-row>
+      </ion-grid>
+        
+       
+      
+    </ion-card-content>
+  </ion-card>
 
-  <swiper-slide>
-    <ion-card color="success">
-      <ion-card-header>
-        <ion-card-title>Viernes</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row *ngFor="let unplan of miPlan">
-            <ion-col size="10">
-              <ion-item color="success">
-                <ion-label>
-                  <h2><b>{{ unplan.tipo }}</b></h2>
-                  <p>{{ unplan.contenido }}</p>
-                </ion-label>
-              </ion-item>
-            </ion-col>
-            <ion-col class="icono" size="2">
-              <ion-icon name="reload-outline"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </swiper-slide>
+  <div [hidden]="hayRegistro" >
+    <ion-button (click)="enviarRegistro()" expand="block" shape="round" color="danger">
+      Enviar registro
+    </ion-button>
+  </div>
+  
+<div class="ion-padding-top">
+  <ion-button (click)="descargarRecomendaciones()" expand="block" shape="round" color="success">
+    <ion-icon slot="start" name="cloud-download-outline"></ion-icon>
+    Recomendaciones
+  </ion-button>
+</div>
 
-  <swiper-slide>
-    <ion-card color="success">
-      <ion-card-header>
-        <ion-card-title>Sábado</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row *ngFor="let unplan of miPlan">
-            <ion-col size="10">
-              <ion-item color="success">
-                <ion-label>
-                  <h2><b>{{ unplan.tipo }}</b></h2>
-                  <p>{{ unplan.contenido }}</p>
-                </ion-label>
-              </ion-item>
-            </ion-col>
-            <ion-col class="icono" size="2">
-              <ion-icon name="reload-outline"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </swiper-slide>
+</swiper-slide>
 
-  <swiper-slide>
-    <ion-card color="success">
-      <ion-card-header>
-        <ion-card-title>Domingo</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row *ngFor="let unplan of miPlan">
-            <ion-col size="10">
-              <ion-item color="success">
-                <ion-label>
-                  <h2><b>{{ unplan.tipo }}</b></h2>
-                  <p>{{ unplan.contenido }}</p>
-                </ion-label>
-              </ion-item>
-            </ion-col>
-            <ion-col class="icono" size="2">
-              <ion-icon name="reload-outline"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </swiper-slide>
+<!-- <swiper-slide>
+  <h1 style=" text-align: center;">Plato ideal</h1>
+  <div class="contenedor">
+    <img class="plato"
+    id="logo1"
+    src="../../assets/imagenes/plato_ideal.png"
+    alt=""
+    >
+  </div>
+  <h3 style=" text-align: center;">Recomendaciones</h3>
+  <div class="cards">
+    <div class="items">
+      <ion-chip [id]="child.id" [color]="tagDefaultColor[i]" (click)="seleccionItem(i)" *ngFor="let child of children;let i = index">
+        <ion-label>{{child. name}}</ion-label>
+      </ion-chip>
+    </div>
+    <swiper-container 
+    #detallemenu
+    [pagination]="true"
+    (slidechange)="swiperSlideChanged($event)"
+    >
+      <swiper-slide>
+        <ion-card class="card">
+          <ion-card-content>
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="12"> <h2>{{ desayuno.contenido }}</h2> </ion-col>
+              </ion-row>
+              <ion-row class="ion-padding-top">
+                <ion-col size="12">
+                  <ion-chip (click)="cambiarDesayuno()">
+                    <ion-icon name="sync-outline" color="primary"></ion-icon>
+                    <ion-label>Otra opción</ion-label>
+                  </ion-chip>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+
+      <swiper-slide>
+        <ion-card class="card">
+          <ion-card-content>
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="12"> <h2>{{ almuerzo.contenido }}</h2> </ion-col>
+              </ion-row>
+              <ion-row class="ion-padding-top">
+                <ion-col size="12">
+                  <ion-chip (click)="cambiarAlmuerzo()">
+                    <ion-icon name="sync-outline" color="primary"></ion-icon>
+                    <ion-label>Otra opción</ion-label>
+                  </ion-chip>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+
+      <swiper-slide>
+        <ion-card class="card">
+          <ion-card-content>
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="12"> <h2>{{ merienda.contenido }}</h2> </ion-col>
+              </ion-row>
+              <ion-row class="ion-padding-top">
+                <ion-col size="12">
+                  <ion-chip (click)="cambiarMerienda()">
+                    <ion-icon name="sync-outline" color="primary"></ion-icon>
+                    <ion-label>Otra opción</ion-label>
+                  </ion-chip>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+
+      <swiper-slide>
+        <ion-card class="card">
+          <ion-card-content>
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="12"> <h2>{{ cena.contenido }}</h2> </ion-col>
+              </ion-row>
+              <ion-row class="ion-padding-top">
+                <ion-col size="12">
+                  <ion-chip (click)="cambiarCena()">
+                    <ion-icon name="sync-outline" color="primary"></ion-icon>
+                    <ion-label>Otra opción</ion-label>
+                  </ion-chip>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+
+
+
+    </swiper-container>
+  </div>
+  <ion-button (click)="verIngesta()" expand="block" shape="round" color="success">
+    Mi ingesta
+  </ion-button>
+</swiper-slide> -->
+
+
 </swiper-container>
 
+ 
 </ion-content>

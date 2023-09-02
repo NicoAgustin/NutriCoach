@@ -9,23 +9,6 @@ ion-item {
   }
 
 
-  swiper-container{
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    vertical-align: middle;
-  }
-
-  swiper-slide {
-    //display:flex;
-    display: block;
-    padding-top: 30%;;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-  }
 
   .icono{
     display: grid;
@@ -35,3 +18,75 @@ ion-item {
     color: black;
   }
   
+  .contenedor{
+    display: flex;
+    justify-content: center; 
+    width: 100%;
+    max-height: 300px;
+  }
+
+  .plato{
+    max-height: 300px;
+    max-width: 300px;
+  }
+
+  .cards{
+    width: 95%;
+    margin: auto;
+    //display: flex;
+    justify-content: center; 
+    background-color: #dff7f4;
+  }
+
+  .card{
+    background-color: greenyellow;
+    text-align: center;
+    height: 150px;
+  }
+
+    swiper-container{
+    // width: 100%;
+    // height: 100%;
+    align-items: center;
+    --swiper-pagination-bullet-inactive-color:transparent;
+    --swiper-pagination-color:transparent;
+  }
+
+  .swiperPrincipal{
+    // width: 100%;
+    // height: 100%;
+  }
+
+
+  .items {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .agua{
+    background-color: #dff7f4;
+  }
+
+  .alimentos{
+    background-color: #dff7f4;
+  }
+
+  .alimento{
+    border-radius: 20px 20px 20px 20px;
+  }
+
+  .calendario{
+    background-color: #f4f5f8;
+  }
+
+  .calorias{
+    background-color: #dff7f4;
+  }
+
+  .inputCalorias{
+    font-size: 25px;
+    color: black;
+  }
+
+

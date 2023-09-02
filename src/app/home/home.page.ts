@@ -128,8 +128,7 @@ const { value: email } = await Swal.fire({
         heightAuto: false,
         html:
           '<input value="'+this.correo+'" id="swal-input1" class="swal2-input" placeholder= \'Correo\' >' +
-          '<input type="password" value="'+this.pass+'" id="swal-input2" class="swal2-input" placeholder= \'Contraseña\'>' +
-          '<input type="text" value="'+this.nutri+'" id="swal-input3" class="swal2-input" placeholder= \'Mail de nutricionista\'>',
+          '<input type="password" value="'+this.pass+'" id="swal-input2" class="swal2-input" placeholder= \'Contraseña\'>',
         focusConfirm: false,
         showCancelButton: true,
         reverseButtons: true,
@@ -138,11 +137,10 @@ const { value: email } = await Swal.fire({
         preConfirm: () => {
             this.correo = (document.getElementById('swal-input1') as HTMLInputElement).value
             this.pass =  (document.getElementById('swal-input2') as HTMLInputElement).value
-            this.nutri = (document.getElementById('swal-input3') as HTMLInputElement).value
                   }
       }).then((result) => {
         if(result.isConfirmed){
-          if(!this.emailRegex.test(this.correo) || !this.emailRegex.test(this.nutri)){
+          if(!this.emailRegex.test(this.correo)){
             Swal.fire({
              icon:'error',
              text: 'Ingrese un correo válido',
@@ -151,7 +149,7 @@ const { value: email } = await Swal.fire({
              this.registrarPaciente()
             }
             )
-           } else if( !this.correo || !this.pass || !this.nutri){
+           } else if( !this.correo || !this.pass){
              Swal.fire({
                icon:'error',
                text: 'Debe completar todos los campos',
@@ -164,14 +162,12 @@ const { value: email } = await Swal.fire({
             //ACA SE DEBE REGISTRAR AL USUARIO
             this.correo=''
             this.pass=''
-            this.nutri=''
             this.notificarCorreo()
            }
         }
         if(result.isDismissed){
           this.correo=''
           this.pass=''
-          this.nutri=''
           Swal.close()
         }
       })
