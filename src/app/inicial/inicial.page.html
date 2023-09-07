@@ -1,13 +1,47 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>inicial</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <div class="tituloInicio">
+    <ion-item class="ion-text-center" color="success">
+      <ion-label>
+        <h1><b>Resumen de tu semana</b></h1>
+        <p><b>{{arrayFechas[0].fechaInicio | date:'dd/MM/yyyy'}} - {{arrayFechas[0].fechaFin | date:'dd/MM/yyyy'}}</b></p>
+        </ion-label>
+    </ion-item>
+  </div>
+<div class="caloriasIngeridas">
+<ion-item color="light" class="caloriasSub">
+    <ion-label class="subs">  <ion-icon size="large" name="restaurant-outline"></ion-icon><b>&nbsp;Promedio calorías ingeridas</b></ion-label>
+  </ion-item>
+  <h1 class="numCalIngeridas"><b>150 kcal</b></h1>
+  <canvas
+  baseChart
+  class="chart"
+  [data]="doughnutChartData"
+  [type]="doughnutChartType"
+  [legend]="true">
+</canvas>
+  <div class="reaccionCalorias">
+    <ion-icon color="success" size="large" name="happy-outline"></ion-icon>
+  </div>
+</div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">inicial</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<div class="caloriasQuemadas">
+  <ion-item color="warning" class="caloriasSub">
+    <ion-label class="subs">  <ion-icon size="large" name="flame-outline"></ion-icon><b> Promedio calorías quemadas</b></ion-label>
+  </ion-item>
+  <h1 class="ion-padding-bottom ion-text-center"> <b>60 kcal</b></h1>
+  <div class="reaccionCaloriasQ">
+    <ion-icon color="danger" size="large" name="sad-outline"></ion-icon>
+  </div>
+</div>
+
+<div class="aguaBebida">
+  <ion-item color="secondary" class="caloriasSub">
+    <ion-label class="subs">  <ion-icon size="large" name="water-outline"></ion-icon><b> Promedio agua bebida</b></ion-label>
+  </ion-item>
+  <h1 class="ion-padding-bottom ion-text-center"><b>2 L</b></h1>
+  <div class="reaccionAgua">
+    <ion-icon size="large" name="chatbubble-ellipses-outline"></ion-icon>
+  </div>
+</div>
+
 </ion-content>

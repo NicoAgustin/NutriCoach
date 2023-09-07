@@ -103,7 +103,7 @@ export class PlanPage implements OnInit {
   aguaArray: number[] = []
   agua: number = 0
   alimentosIngeridos: alimentoCategoria[] = [];
-  registroFecha:string= new Date().toISOString().substring(0, 19)
+  registroFecha:string= new Date().toISOString().substring(0, 10)
   caloriasTotales:number=0
   unRegistroAlimentos: registroAlimento[] = []
   hayRegistro: boolean = false

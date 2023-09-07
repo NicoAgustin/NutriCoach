@@ -1,0 +1,57 @@
+.tituloInicio{
+  height: 10%;
+  background-color: #2dd36f;
+}
+
+.caloriasIngeridas{
+  background-color: #f4f5f8;
+  height: 50%;
+}
+.numCalIngeridas{
+  color: black;
+  text-align: center;
+}
+.chart {
+  max-width: 100%;
+  max-height: 60%;
+}
+
+.caloriasQuemadas{
+  background-color: #ffc409;
+  height: 20%;
+}
+
+.aguaBebida{
+  background-color: #3dc2ff;
+  height: 20%;
+}
+.caloriasSub{
+  text-align: center;
+  align-items: center;
+  font-size: 18px;
+}
+
+.subs{
+  display: flex;
+  align-items: center;
+  justify-content:center;
+}
+
+.reaccionCalorias{
+  position:absolute;
+  margin-left: 85%;
+  margin-top: -10%;
+}
+
+.reaccionCaloriasQ{
+  position:absolute;
+  margin-left: 85%;
+  margin-top: -15%;
+}
+
+.reaccionAgua{
+  position:absolute;
+  margin-left: 85%;
+  margin-top: -15%;
+}
+
