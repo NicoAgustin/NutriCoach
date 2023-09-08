@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>perfil</ion-title>
+  <ion-toolbar class="headerPerfil">
+    <ion-title>Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,10 +11,77 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-button
-  (click)="cerrarSesion()"
-  expand="block"
-  color="primary"
-  class="ion-padding"
->Cerrar sesión</ion-button>
+  <ion-card>
+    <ion-card-header>
+      Información de usuario
+    </ion-card-header>
+
+    <!-- ----------Informacion de usuario con datos cargados ---------- -->
+    <ion-card-content *ngIf="isProfileLoaded">
+      <div class="center-avatar">
+        <ion-avatar>
+          <ion-img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Silhouette of a person's head" class="avatar-img"></ion-img>
+        </ion-avatar>
+      </div>
+      <ion-list>
+        <ion-item>
+          <ion-label>
+            <p>Email:</p>
+            <ion-text>{{ userProfile.email }}</ion-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <p>Nombre Completo:</p>
+            <ion-text>{{ userProfile.nombre }}</ion-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <p>DNI:</p>
+            <ion-text>{{ userProfile.dni }}</ion-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <p>Obra Social:</p>
+            <ion-text>{{ userProfile.obraSocial }}</ion-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <p>Número de Afiliado:</p>
+            <ion-text>{{ userProfile.numAfiliado }}</ion-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <p>Teléfono:</p>
+            <ion-text>{{ userProfile.telefono }}</ion-text>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- ----------Informacion de usuario con datos sin cargar ---------- -->
+  <ion-card *ngIf="!isProfileLoaded">
+    <ion-card-header>
+      Mensaje importante
+    </ion-card-header>
+    <ion-card-content>
+      <p>Tus datos del perfil aún no han sido cargados. Por favor, complete sus datos para utilizar la aplicación.</p>
+      <ion-button (click)="cargarDatos()" expand="block" color="primary" class="ion-padding">Cargar datos</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button (click)="cambiarContrasena()" expand="block" color="primary" class="ion-padding">Cambiar contraseña</ion-button>
+  <ion-button (click)="cerrarSesion()" expand="block" color="primary" class="ion-padding">Cerrar sesión</ion-button>
+  <ion-button (click)="eliminarCuenta()" expand="block" color="danger" class="ion-padding">Eliminar cuenta</ion-button>
+
 </ion-content>
