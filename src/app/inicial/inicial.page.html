@@ -1,47 +1,200 @@
-<ion-content>
-  <div class="tituloInicio">
-    <ion-item class="ion-text-center" color="success">
-      <ion-label>
-        <h1><b>Resumen de tu semana</b></h1>
-        <p><b>{{arrayFechas[0].fechaInicio | date:'dd/MM/yyyy'}} - {{arrayFechas[0].fechaFin | date:'dd/MM/yyyy'}}</b></p>
+<ion-content [scrollEvents]="true">
+  <swiper-container
+    #slideplan
+    [pagination]="true"
+    [allowTouchMove]="false"
+  >
+  <swiper-slide>
+    <div class="tituloInicio">
+      <ion-item
+        class="ion-text-center"
+        color="success"
+      >
+        <ion-label>
+          <h1><b>Juan Pérez</b></h1>
+          <p>Tu nutricionista: <b>Alberto Cormillot</b></p>
         </ion-label>
-    </ion-item>
-  </div>
-<div class="caloriasIngeridas">
-<ion-item color="light" class="caloriasSub">
-    <ion-label class="subs">  <ion-icon size="large" name="restaurant-outline"></ion-icon><b>&nbsp;Promedio calorías ingeridas</b></ion-label>
-  </ion-item>
-  <h1 class="numCalIngeridas"><b>150 kcal</b></h1>
-  <canvas
-  baseChart
-  class="chart"
-  [data]="doughnutChartData"
-  [type]="doughnutChartType"
-  [legend]="true">
-</canvas>
-  <div class="reaccionCalorias">
-    <ion-icon color="success" size="large" name="happy-outline"></ion-icon>
-  </div>
-</div>
+      </ion-item>
+    </div>
+    <ion-card color="warning">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Almuerzo</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="contenedor">
 
-<div class="caloriasQuemadas">
-  <ion-item color="warning" class="caloriasSub">
-    <ion-label class="subs">  <ion-icon size="large" name="flame-outline"></ion-icon><b> Promedio calorías quemadas</b></ion-label>
-  </ion-item>
-  <h1 class="ion-padding-bottom ion-text-center"> <b>60 kcal</b></h1>
-  <div class="reaccionCaloriasQ">
-    <ion-icon color="danger" size="large" name="sad-outline"></ion-icon>
-  </div>
-</div>
+          <div class="contenedor">
+            <img class="plato"
+            id="logo1"
+            src="../../assets/imagenes/plato_ideal.png"
+            alt=""
+            >
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card color="dark">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Cena</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="contenedor">
 
-<div class="aguaBebida">
-  <ion-item color="secondary" class="caloriasSub">
-    <ion-label class="subs">  <ion-icon size="large" name="water-outline"></ion-icon><b> Promedio agua bebida</b></ion-label>
-  </ion-item>
-  <h1 class="ion-padding-bottom ion-text-center"><b>2 L</b></h1>
-  <div class="reaccionAgua">
-    <ion-icon size="large" name="chatbubble-ellipses-outline"></ion-icon>
-  </div>
-</div>
+          <div class="contenedor">
+            <img class="plato"
+            id="logo1"
+            src="../../assets/imagenes/plato_ideal.png"
+            alt=""
+            >
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Recomendaciones</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quam quaerat fugit sint expedita doloremque animi exercitationem? Praesentium perferendis explicabo assumenda voluptatem nihil aliquam veniam a? Nemo eaque ducimus eius?
+      </ion-card-content>
+    </ion-card>
+   
+    <ion-button (click)="verSemana()" expand="block" shape="round" color="success">
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      Tu semana
+    </ion-button>
+
+    <div class="ion-padding-top">
+      <ion-button (click)="descargarRecetas()" expand="block" shape="round" color="warning">
+        <ion-icon slot="end" name="cloud-download-outline"></ion-icon>
+        Recetas
+      </ion-button>
+    </div>
+  </swiper-slide>
+
+  <swiper-slide>
+    <div class="tituloInicio">
+      <ion-item
+        class="ion-text-center"
+        color="success"
+      >
+        <ion-label>
+          <h1><b>Resumen de tu semana</b></h1>
+          <p><b>
+              {{arrayFechas[0].fechaInicio | date:'dd/MM/yyyy'}} - {{arrayFechas[0].fechaFin | date:'dd/MM/yyyy'}}
+            </b>
+          </p>
+        </ion-label>
+      </ion-item>
+    </div>
+    <ion-card>
+      
+    
+    <div class="caloriasIngeridas">
+      <ion-item
+        color="light"
+        class="caloriasSub"
+      >
+        <ion-label class="subs">
+          <ion-icon
+            size="large"
+            name="restaurant-outline"
+          ></ion-icon>
+  
+          <b>
+            &nbsp;Promedio calorías ingeridas
+          </b>
+        </ion-label>
+      </ion-item>
+  
+      <h1 class="numCalIngeridas">
+        <b>150 kcal</b>
+      </h1>
+  
+      <canvas
+        baseChart="baseChart"
+        class="chart"
+        [data]="doughnutChartData"
+        [type]="doughnutChartType"
+        [legend]="true"
+      ></canvas>
+  
+      <div class="reaccionCalorias">
+        <ion-icon
+          color="success"
+          size="large"
+          name="happy-outline"
+        ></ion-icon>
+      </div>
+    </div>
+  </ion-card>
+  <ion-card color="warning">
+    
+    <div class="caloriasQuemadas">
+      <ion-item
+        color="warning"
+        class="caloriasSub"
+      >
+        <ion-label class="subs">
+          <ion-icon
+            size="large"
+            name="flame-outline"
+          ></ion-icon>
+  
+          <b>Promedio calorías quemadas</b>
+        </ion-label>
+      </ion-item>
+  
+      <h1 class="ion-padding-bottom ion-text-center">
+        <b>60 kcal</b>
+      </h1>
+  
+      <div class="reaccionCaloriasQ">
+        <ion-icon
+          color="danger"
+          size="large"
+          name="sad-outline"
+        ></ion-icon>
+      </div>
+    </div>
+  </ion-card>
+  
+  <ion-card  color="secondary">
+    <div class="aguaBebida">
+      <ion-item
+        color="secondary"
+        class="caloriasSub"
+      >
+        <ion-label class="subs">
+          <ion-icon
+            size="large"
+            name="water-outline"
+          ></ion-icon>
+  
+          <b>Promedio agua bebida</b>
+        </ion-label>
+      </ion-item>
+  
+      <h1 class="ion-padding-bottom ion-text-center">
+        <b>2 L</b>
+      </h1>
+  
+      <div class="reaccionAgua">
+        <ion-icon
+          size="large"
+          name="chatbubble-ellipses-outline"
+        ></ion-icon>
+      </div>
+    </div>
+  </ion-card>
+   
+    <ion-button (click)="verRecomendaciones()" expand="block" shape="round" color="success">
+      <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      Ver recomendaciones
+    </ion-button>
+
+  </swiper-slide>
+</swiper-container>
 
 </ion-content>

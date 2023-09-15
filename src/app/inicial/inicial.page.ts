@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import Swiper from 'swiper';
 import { SwiperOptions } from 'swiper/types';
 import { ChartData, ChartEvent, ChartType } from 'chart.js';
+import { IonContent, Platform } from '@ionic/angular';
 
 
 @Component({
@@ -10,6 +11,12 @@ import { ChartData, ChartEvent, ChartType } from 'chart.js';
   styleUrls: ['./inicial.page.scss'],
 })
 export class InicialPage implements OnInit {
+
+  @ViewChild("slideplan", { static: false }) slidePlan?: ElementRef<{ swiper: Swiper }>
+  private slidePlanConfig?: SwiperOptions
+
+  @ViewChild(IonContent)
+  content!: IonContent;
 
 
   primeraSemanaInicio:string=""
@@ -95,6 +102,25 @@ export class InicialPage implements OnInit {
       this.arrayFechas.push(intervalo)
     }
   }
+
+  verSemana(){
+    this.slidePlan?.nativeElement.swiper.slideNext(250)
+    this.content.scrollToTop(0)
+  }
+
+  verRecomendaciones(){
+    this.slidePlan?.nativeElement.swiper.slidePrev(250)
+    this.content.scrollToTop(0);
+  }
+
+  descargarRecetas(){
+    //ACÁ SE VA A DESCARGAR EL PDF CON LAS RECETAS DEL NUTRI
+  }
+
+
+  
+
+
 
 }
 

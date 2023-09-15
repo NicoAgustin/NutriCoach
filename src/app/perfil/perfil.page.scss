@@ -1,3 +1,11 @@
+ion-content {
+    --background: none;
+    background: url(../../assets/imagenes/fondo-verduras.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+  }
 .headerPerfil{
     text-align: center;
 }

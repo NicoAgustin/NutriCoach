@@ -1,12 +1,15 @@
 <ion-content>
-<swiper-container
-class="swiperPrincipal"
-#slideplan
-[pagination]="true"
-[allowTouchMove]="false"
->
-<swiper-slide>
-
+  <div class="tituloInicio">
+    <ion-item
+      class="ion-text-center"
+      color="success"
+    >
+      <ion-label>
+        <h1><b>Juan Pérez</b></h1>
+        <p>Tu nutricionista: <b>Alberto Cormillot</b></p>
+      </ion-label>
+    </ion-item>
+  </div>
   <ion-card class="calendario">
     <ion-card-subtitle class="ion-padding">Fecha de registro</ion-card-subtitle>
     <ion-card-title>{{ registroFecha | date: 'dd/MM/yyyy' }}</ion-card-title>
@@ -17,7 +20,7 @@ class="swiperPrincipal"
 
   <ion-popover trigger="date" >
     <ng-template>
-        <ion-datetime #datetimeId  [showDefaultButtons]="true" doneText="Aceptar" cancelText="Cancelar" presentation="date" (ngModel)="registroFecha" (ionChange)="setDate(datetimeId.value)" locale="es-ES" max={{max}} [highlightedDates]="highlightedDates"></ion-datetime>
+        <ion-datetime #datetimeId  [showDefaultButtons]="true" doneText="Aceptar" cancelText="Cancelar" presentation="date" (ngModel)="registroFecha" (ionChange)="setDate(datetimeId.value)" locale="es-AR" max={{max}} [highlightedDates]="highlightedDates"></ion-datetime>
     </ng-template>
 </ion-popover>
 
@@ -92,128 +95,13 @@ class="swiperPrincipal"
       Enviar registro
     </ion-button>
   </div>
-  
-<div class="ion-padding-top">
-  <ion-button (click)="descargarRecomendaciones()" expand="block" shape="round" color="success">
-    <ion-icon slot="start" name="cloud-download-outline"></ion-icon>
-    Recomendaciones
-  </ion-button>
-</div>
-
-</swiper-slide>
-
-<!-- <swiper-slide>
-  <h1 style=" text-align: center;">Plato ideal</h1>
-  <div class="contenedor">
-    <img class="plato"
-    id="logo1"
-    src="../../assets/imagenes/plato_ideal.png"
-    alt=""
-    >
-  </div>
-  <h3 style=" text-align: center;">Recomendaciones</h3>
-  <div class="cards">
-    <div class="items">
-      <ion-chip [id]="child.id" [color]="tagDefaultColor[i]" (click)="seleccionItem(i)" *ngFor="let child of children;let i = index">
-        <ion-label>{{child. name}}</ion-label>
-      </ion-chip>
-    </div>
-    <swiper-container 
-    #detallemenu
-    [pagination]="true"
-    (slidechange)="swiperSlideChanged($event)"
-    >
-      <swiper-slide>
-        <ion-card class="card">
-          <ion-card-content>
-            <ion-grid fixed>
-              <ion-row>
-                <ion-col size="12"> <h2>{{ desayuno.contenido }}</h2> </ion-col>
-              </ion-row>
-              <ion-row class="ion-padding-top">
-                <ion-col size="12">
-                  <ion-chip (click)="cambiarDesayuno()">
-                    <ion-icon name="sync-outline" color="primary"></ion-icon>
-                    <ion-label>Otra opción</ion-label>
-                  </ion-chip>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>
-        </ion-card>
-      </swiper-slide>
-
-      <swiper-slide>
-        <ion-card class="card">
-          <ion-card-content>
-            <ion-grid fixed>
-              <ion-row>
-                <ion-col size="12"> <h2>{{ almuerzo.contenido }}</h2> </ion-col>
-              </ion-row>
-              <ion-row class="ion-padding-top">
-                <ion-col size="12">
-                  <ion-chip (click)="cambiarAlmuerzo()">
-                    <ion-icon name="sync-outline" color="primary"></ion-icon>
-                    <ion-label>Otra opción</ion-label>
-                  </ion-chip>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>
-        </ion-card>
-      </swiper-slide>
-
-      <swiper-slide>
-        <ion-card class="card">
-          <ion-card-content>
-            <ion-grid fixed>
-              <ion-row>
-                <ion-col size="12"> <h2>{{ merienda.contenido }}</h2> </ion-col>
-              </ion-row>
-              <ion-row class="ion-padding-top">
-                <ion-col size="12">
-                  <ion-chip (click)="cambiarMerienda()">
-                    <ion-icon name="sync-outline" color="primary"></ion-icon>
-                    <ion-label>Otra opción</ion-label>
-                  </ion-chip>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>
-        </ion-card>
-      </swiper-slide>
-
-      <swiper-slide>
-        <ion-card class="card">
-          <ion-card-content>
-            <ion-grid fixed>
-              <ion-row>
-                <ion-col size="12"> <h2>{{ cena.contenido }}</h2> </ion-col>
-              </ion-row>
-              <ion-row class="ion-padding-top">
-                <ion-col size="12">
-                  <ion-chip (click)="cambiarCena()">
-                    <ion-icon name="sync-outline" color="primary"></ion-icon>
-                    <ion-label>Otra opción</ion-label>
-                  </ion-chip>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>
-        </ion-card>
-      </swiper-slide>
 
 
 
-    </swiper-container>
-  </div>
-  <ion-button (click)="verIngesta()" expand="block" shape="round" color="success">
-    Mi ingesta
-  </ion-button>
-</swiper-slide> -->
 
 
-</swiper-container>
+
+
 
  
 </ion-content>

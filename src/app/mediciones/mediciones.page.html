@@ -1,4 +1,15 @@
 <ion-content>
+  <div class="tituloInicio">
+    <ion-item
+      class="ion-text-center"
+      color="success"
+    >
+      <ion-label>
+        <h1><b>Juan Pérez</b></h1>
+        <p>Tu nutricionista: <b>Alberto Cormillot</b></p>
+      </ion-label>
+    </ion-item>
+  </div>
   <ion-card class="calendario">
     <ion-card-subtitle class="ion-padding">Fecha de registro</ion-card-subtitle>
     <ion-card-title class="ion-text-center">{{ registroFecha | date: 'dd/MM/yyyy' }}</ion-card-title>
@@ -8,7 +19,7 @@
   </ion-card>
   <ion-popover trigger="dateMedicion" >
     <ng-template>
-        <ion-datetime #datetimeIdMedicion  [showDefaultButtons]="true" doneText="Aceptar" cancelText="Cancelar" presentation="date" (ngModel)="registroFecha" (ionChange)="setDate(datetimeIdMedicion.value)" locale="es-ES" max={{max}} [highlightedDates]="highlightedDates"></ion-datetime>
+        <ion-datetime #datetimeIdMedicion  [showDefaultButtons]="true" doneText="Aceptar" cancelText="Cancelar" presentation="date" (ngModel)="registroFecha" (ionChange)="setDate(datetimeIdMedicion.value)" locale="es-AR" max={{max}} [highlightedDates]="highlightedDates"></ion-datetime>
     </ng-template>
 </ion-popover>
 

@@ -16,8 +16,6 @@ export class PlanPage implements OnInit {
   @ViewChild("detallemenu", { static: false }) swiper?: ElementRef<{ swiper: Swiper }>
   private swiperConfig?: SwiperOptions
 
-  @ViewChild("slideplan", { static: false }) slidePlan?: ElementRef<{ swiper: Swiper }>
-  private slidePlanConfig?: SwiperOptions
 
   tagDefaultColor = Array(4).fill('secondary');
   children = [
@@ -123,13 +121,7 @@ export class PlanPage implements OnInit {
     //this.registroFecha=Date.now()
   }
 
-  verRecomendaciones(){
-    this.slidePlan?.nativeElement.swiper.slideNext(250)
-  }
 
-  verIngesta(){
-    this.slidePlan?.nativeElement.swiper.slidePrev(250)
-  }
 
   inicializarPlan(){
     this.desayuno = this.desayunos[0]
@@ -532,9 +524,6 @@ export class PlanPage implements OnInit {
     })
   }
 
-  descargarRecomendaciones(){
-    //ACÁ SE VA A DESCARGAR EL PDF CON LAS RECOMENDACIONES DEL NUTRI
-  }
 
 
 }
