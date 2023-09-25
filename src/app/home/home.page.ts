@@ -127,8 +127,8 @@ const { value: email } = await Swal.fire({
         title: 'Complete sus datos',
         heightAuto: false,
         html:
-          '<input value="'+this.correo+'" id="swal-input1" class="swal2-input" placeholder= \'Correo\' >' +
-          '<input type="password" value="'+this.pass+'" id="swal-input2" class="swal2-input" placeholder= \'Contraseña\'>',
+          '<input value="'+this.correo+'" id="swal-input1" class="swal2-input" placeholder= \'Correo\' style= "width:80%; margin:1em 0.7em 3px;">' +
+          '<input type="password" value="'+this.pass+'" id="swal-input2" class="swal2-input" placeholder= \'Contraseña\' style= "width:80%; margin:1em 0.7em 3px;">',
         focusConfirm: false,
         showCancelButton: true,
         reverseButtons: true,
@@ -180,9 +180,9 @@ const { value: email } = await Swal.fire({
         title: 'Complete sus datos',
         heightAuto: false,
         html:
-          '<input value="'+this.correo+'" id="swal-input1" class="swal2-input" placeholder= \'Correo\' >' +
-          '<input type="password" value="'+this.pass+'" id="swal-input2" class="swal2-input" placeholder= \'Contraseña\'>' +
-          '<input type="text" value="'+this.nutri+'" id="swal-input3" class="swal2-input" placeholder= \'Matrícula\'>',
+          '<input value="'+this.correo+'" id="swal-input1" class="swal2-input" placeholder= \'Correo\' style= "width:80%; margin:1em 0.7em 3px;">' +
+          '<input type="password" value="'+this.pass+'" id="swal-input2" class="swal2-input" placeholder= \'Contraseña\' style= "width:80%; margin:1em 0.7em 3px;">' +
+          '<input type="text" value="'+this.nutri+'" id="swal-input3" class="swal2-input" placeholder= \'Matrícula\' style= "width:80%; margin:1em 0.7em 3px;">',
         focusConfirm: false,
         showCancelButton: true,
         reverseButtons: true,
