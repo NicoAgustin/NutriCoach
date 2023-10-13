@@ -1,20 +1,43 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="inicial">
+
+     <!-- Tabs del Paciente -->
+
+    <ion-tab-button *ngIf="!nutricionista" tab="inicial">
       <ion-icon name="home-outline"></ion-icon>
       <ion-label>Inicio</ion-label>
     </ion-tab-button>
-    <ion-tab-button tab="mediciones">
+    <ion-tab-button *ngIf="!nutricionista" tab="mediciones">
       <ion-icon name="bar-chart-outline"></ion-icon>
       <ion-label>Mediciones</ion-label>
     </ion-tab-button>
-    <ion-tab-button tab="plan">
+    <ion-tab-button *ngIf="!nutricionista" tab="plan">
       <ion-icon name="reader-outline"></ion-icon>
       <ion-label>Registro</ion-label>
     </ion-tab-button>
-    <ion-tab-button tab="perfil">
+    <ion-tab-button *ngIf="!nutricionista" tab="perfil">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Perfil</ion-label>
+    </ion-tab-button>
+ 
+ <!-- Tabs del Nutricionista -->
+
+    <ion-tab-button *ngIf="nutricionista" tab="inicial-nutri">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-tab-button>
+    <ion-tab-button *ngIf="nutricionista" tab="mediciones-nutri">
+      <ion-icon name="bar-chart-outline"></ion-icon>
+      <ion-label>Mediciones</ion-label>
+    </ion-tab-button>
+    <ion-tab-button *ngIf="nutricionista" tab="plan-nutri">
+      <ion-icon name="reader-outline"></ion-icon>
+      <ion-label>Registro</ion-label>
+    </ion-tab-button>
+    <ion-tab-button *ngIf="nutricionista" tab="perfil-nutri">
       <ion-icon name="person-outline"></ion-icon>
       <ion-label>Perfil</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
+
 </ion-tabs>

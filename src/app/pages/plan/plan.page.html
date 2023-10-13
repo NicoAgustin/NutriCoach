@@ -1,0 +1,130 @@
+<ion-content>
+  <div class="tituloInicio">
+    <ion-item class="ion-text-center" color="success">
+      <ion-label>
+        <h1><b>{{ nombrePaciente }}</b></h1>
+        <p>Tu nutricionista: <b>{{ nombreNutricionista }}</b></p>
+      </ion-label>
+    </ion-item>
+  </div>
+  <div *ngIf="loading">
+    <ion-card class="calendario">
+      <ion-card-content *ngFor="let item of [1,1,1]">
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="agua">
+      <ion-card-content *ngFor="let item of [1,1,1]">
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="alimentos">
+      <ion-card-content *ngFor="let item of [1,1,1,1]">
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="calorias">
+      <ion-card-content *ngFor="let item of [1,1,1,1]">
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+<div *ngIf="!loading">
+  <ion-card class="calendario">
+    <ion-card-subtitle class="ion-padding">Fecha de registro</ion-card-subtitle>
+    <ion-card-title>{{ registroFecha | date: 'dd/MM/yyyy' }}</ion-card-title>
+   <ion-card-content id="date">
+    <ion-icon  color="primary" size="large" name="chevron-down-circle-outline"></ion-icon>
+   </ion-card-content>
+  </ion-card>
+
+  <ion-popover trigger="date" >
+    <ng-template>
+        <ion-datetime #datetimeId  [showDefaultButtons]="true" doneText="Aceptar" cancelText="Cancelar" presentation="date" (ngModel)="registroFecha" (ionChange)="setDate(datetimeId.value)" locale="es-AR" max={{max}} [highlightedDates]="highlightedDates"></ion-datetime>
+    </ng-template>
+</ion-popover>
+
+  <ion-card class="agua">
+    <ion-card-header>
+      <ion-card-subtitle>Agua</ion-card-subtitle>
+      <ion-card-title>{{ agua }} L</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col *ngIf="!hayRegistro" size="1"><ion-icon (click)="restarAgua()" color="primary" size="large" name="remove-circle-outline"></ion-icon></ion-col>
+          <ion-col class="ion-padding-start" size="10" *ngIf="agua==0"><ion-icon size="large" name="water-outline"></ion-icon></ion-col>
+          <ion-col class="ion-padding-start" size="10" *ngIf="agua">
+            <div class="ion-float-left" *ngFor="let ag of aguaArray">
+            <ion-icon size="large" color="primary" name="water"></ion-icon>
+          </div>
+          <div >
+            <ion-icon class="ion-padding-start" *ngIf="agua>=2.5" size="large" color="success" name="happy-outline"></ion-icon>
+          </div>
+          </ion-col>
+          <ion-col *ngIf="!hayRegistro" size="1"> <ion-icon (click)="sumarAgua()" color="primary" size="large" name="add-circle-outline"></ion-icon></ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card class="alimentos">
+    <ion-card-subtitle class="ion-padding">Alimentos</ion-card-subtitle>
+    <ion-card-title class="ion-padding-bottom" *ngIf="alimentosIngeridos.length == 0">No se cargaron alimentos</ion-card-title>
+    <ion-card-content *ngIf="alimentosIngeridos.length > 0" >
+      <ion-item class="alimento" *ngFor="let al of alimentosIngeridos ; let i = index">
+        <ion-icon *ngIf="!hayRegistro" (click)="borrarIngesta(i)" class="ion-padding-start" slot="start" color="danger" name="trash-outline"></ion-icon>
+        <ion-label (click)="verInfoIngesta(i)" class="ion-text-center">
+          <h2> {{al.categoria}}  ({{al.calorias}} calorías) </h2>
+          <p>{{al.contenido}}</p>
+          </ion-label>
+          <ion-icon *ngIf="!hayRegistro" (click)="editarIngesta(i)" slot="end" color="primary" name="create-outline"></ion-icon>
+      </ion-item>
+        <h1 class="ion-padding-top ion-text-center">Calorías totales: {{caloriasTotales}}</h1>
+    </ion-card-content>
+    <div [hidden]="hayRegistro">
+      <ion-button (click)="agregarAlimento()" expand="full">
+        <ion-icon size="large" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-card>
+  <ion-card class="calorias">
+    <ion-card-header>
+      <ion-card-subtitle>Calorías quemadas (kcal)</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid >
+        <ion-row>
+          <ion-col  size="1"> <ion-icon *ngIf="!hayRegistro" (click)="restarCalorias()" size="large" color="primary" name="remove-circle-outline"></ion-icon></ion-col>
+          <ion-col size="1"></ion-col>
+          <ion-col  size="8"> 
+            <ion-input *ngIf="!hayRegistro" class="ion-text-center inputCalorias" [(ngModel)]="caloriasQuemadas" type="number" placeholder="0"></ion-input>
+            <ion-label class="registroCalorias" *ngIf="hayRegistro"><h1>{{ caloriasQuemadas}}</h1></ion-label>
+          </ion-col>
+          <ion-col size="1"></ion-col>
+          <ion-col  size="1"> <ion-icon *ngIf="!hayRegistro" (click)="sumarCalorias()" size="large" color="primary" name="add-circle-outline"></ion-icon></ion-col>
+        </ion-row>
+      </ion-grid>
+        
+       
+      
+    </ion-card-content>
+  </ion-card>
+
+  <div [hidden]="hayRegistro" >
+    <ion-button (click)="enviarRegistro()" expand="block" shape="round" color="danger">
+      Enviar registro
+    </ion-button>
+  </div>
+</div>
+ 
+
+
+
+
+
+
+
+
+ 
+</ion-content>

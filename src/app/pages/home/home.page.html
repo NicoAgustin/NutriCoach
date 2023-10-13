@@ -1,0 +1,85 @@
+<ion-content>
+
+  <div class="contenedor">
+    <img
+      id="logo1"
+      src="../../assets/imagenes/Logo-3.png"
+      alt=""
+    >
+  </div>
+
+  <div class="contenedor2">
+    <img
+      id="logo2"
+      src="../../assets/imagenes/Logo-2.svg"
+      alt=""
+    >
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col
+        class="ion-no-padding ion-no-margin"
+        size="12"
+      >
+        <ion-list class="ion-no-padding ion-no-margin">
+          <ion-item>
+            <ion-label position="floating">Correo electrónico</ion-label>
+
+            <ion-input
+              name="usuario"
+              type="text"
+              class="loginInput"
+              [(ngModel)]="modelLogin.user"
+              required="required"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+
+            <ion-input
+              name="password"
+              [type]="showPassword ? 'text' : 'password'"
+              [(ngModel)]="modelLogin.contrasena"
+              required="required"
+            ></ion-input>
+
+            <ion-icon
+              slot="end"
+              style="margin:auto"
+              class="fullCenter"
+              [name]="passwordToggleIcon"
+              (click)="changePassword()"
+            ></ion-icon>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-button
+    (click)="iniciar()"
+    expand="block"
+    color="primary"
+    class="ion-padding"
+  >Iniciar sesión</ion-button>
+
+  <div class="ion-text-center">
+    <ion-label
+      (click)="recordar()"
+      color="primary"
+    >¿Olvidaste tu contraseña?</ion-label>
+  </div>
+
+  <div class="registro">
+    <ion-button
+      id="alerta-registro"
+      (click)="registrar()"
+      expand="block"
+      color="success"
+      class="ion-padding"
+    >Registrarse</ion-button>
+  </div>
+</ion-content>
+

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UtilsService } from '../services/utils.service';
 
 @Component({
   selector: 'app-tabs',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabsPage implements OnInit {
 
-  constructor() { }
+  nutricionista: boolean
 
-  ngOnInit() {
+  constructor( private utilSvc: UtilsService ) { 
+    
   }
+
+   ngOnInit() {
+    this.nutricionista =  this.utilSvc.nutricionista
+  }
+
+  ionViewWillEnter(){
+    this.nutricionista =  this.utilSvc.nutricionista
+  }
+  
 
 }
