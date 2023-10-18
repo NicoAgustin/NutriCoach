@@ -15,11 +15,11 @@ export class TabsPage implements OnInit {
   }
 
    ngOnInit() {
-    this.nutricionista =  this.utilSvc.nutricionista
+    this.nutricionista =  this.utilSvc.getElementInLocalStorage('nutricionista')
   }
 
   ionViewWillEnter(){
-    this.nutricionista =  this.utilSvc.nutricionista
+    this.nutricionista =  this.utilSvc.getElementInLocalStorage('nutricionista')
   }
   
 

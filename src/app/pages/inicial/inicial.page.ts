@@ -74,53 +74,6 @@ export class InicialPage implements OnInit {
   colorReaccioncaloriasQuemadas = "dark"
   colorReaccionaguaBebida = "dark"
 
-
-  // public doughnutChartLabels: string[] = [
-  //   'Almuerzo',
-  //   'Cena',
-  //   'Desayuno',
-  //   'Otros',
-  //   'Merienda'
-  // ];
-
-  // public doughnutChartData: ChartData<'doughnut'> = {
-  //   labels: this.doughnutChartLabels,
-  //   datasets: [
-  //     {
-  //       data: this.prueba,
-  //       backgroundColor: [
-  //         'rgb(255, 99, 132)', //ROJO
-  //         'rgb(54, 162, 235)', //AZUL
-  //         'rgb(255, 205, 86)', //AMARILLO
-  //         'rgb(128,128,128)', //GRIS
-  //         'rgb(128,0,0)' //MARRON
-  //       ]
-  //     }
-  //   ],
-  // };
-  // public doughnutChartType: ChartType = 'doughnut';
-
-  // // events
-  // public chartClicked({
-  //   event,
-  //   active,
-  // }: {
-  //   event: ChartEvent;
-  //   active: object[];
-  // }): void {
-  //   console.log(event, active);
-  // }
-
-  // public chartHovered({
-  //   event,
-  //   active,
-  // }: {
-  //   event: ChartEvent;
-  //   active: object[];
-  // }): void {
-  //   console.log(event, active);
-  // }
-
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router,
     private firebaseSvc: FirebaseService,
@@ -166,8 +119,6 @@ export class InicialPage implements OnInit {
         this.colorReaccioncaloriasQuemadas = this.asignarColor(this.reacciones.caloriasQuemadas)
         this.colorReaccionaguaBebida = this.asignarColor(this.reacciones.aguaBebida)
       }
-      console.log("Reacciones: ")
-      console.log(this.reacciones)
     })
   }
 
@@ -221,13 +172,10 @@ export class InicialPage implements OnInit {
     this.registroAlimentosEnSemana = []
     for (let i = 0; i < this.registroAlimentos.length; i++) {
       let fecha = new Date(this.registroAlimentos[i].fecha).toISOString().substring(0, 10)
-      console.log("indice: " + i)
-      console.log("Fecha de registro: " + fecha)
       if (fecha >= inicio && fecha <= fin) {
         this.registroAlimentosEnSemana.push(this.registroAlimentos[i])
       }
     }
-    console.log(this.registroAlimentosEnSemana)
     this.detalleAlimentos = {
       agua: 0,
       almuerzo: 0,
@@ -293,7 +241,6 @@ export class InicialPage implements OnInit {
       }
     }
     this.data.sort((a, b) => b.percentage - a.percentage);
-    console.log(this.detalleAlimentos)
   }
 
   async obtenerRecomendaciones() {
@@ -311,23 +258,18 @@ export class InicialPage implements OnInit {
 
   async obtenerNutricionista() {
     this.pacienteNutricionista = this.utilSvc.getElementInLocalStorage('pacienteNutricionista')
-    console.log(this.pacienteNutricionista.nombre)
-    console.log(this.pacienteNutricionista.perfilCompleto)
     if (this.pacienteNutricionista.perfilCompleto) {
       (await this.firebaseSvc.getDocument('Pacientes', this.utilSvc.getElementInLocalStorage('correo'))).toPromise().then(async (resp) => {
         this.paciente = resp.data() as Paciente
         this.nombrePaciente = this.paciente.nombre
         this.pacienteNutricionista.nombre == "" ? this.nombreNutricionista = "Aún no asignado" : this.nombreNutricionista = this.pacienteNutricionista.nombre
         this.utilSvc.setElementInLocalStorage('nombrePaciente', this.nombrePaciente)
-        console.log(this.paciente)
       })
     }
   }
 
   mensajeBienvenida() {
-    console.log('Mensaje de bienvenida')
     if ((!this.pacienteNutricionista.perfilCompleto || this.pacienteNutricionista.nutricionista == "") && !this.utilSvc.getElementInLocalStorage('msjBienvenida')) {
-      console.log('Se comple la condición')
       let msj1: string = ""
       let msj2: string = ""
       this.pacienteNutricionista.perfilCompleto ? "" : msj1 = "Te recomendamos completar los datos de tu perfil. "
@@ -338,8 +280,6 @@ export class InicialPage implements OnInit {
         heightAuto: false,
         confirmButtonText: 'Aceptar'
       }).then(() => this.utilSvc.setElementInLocalStorage('msjBienvenida', true))
-    } else {
-      console.log('No se cumplió condición')
     }
   }
 
@@ -352,7 +292,6 @@ export class InicialPage implements OnInit {
     this.primeraSemanaInicio = result.toString()
     result.setDate(result.getDate() + 6)
     this.primeraSemanaFin = result.toString()
-    console.log(this.primeraSemanaInicio)
     this.getArrayFechas()
   }
 
@@ -381,7 +320,6 @@ export class InicialPage implements OnInit {
   }
 
   descargarRecetas() {
-    console.log("Descargar recetas")
     if (this.hayRecetas) {
       const link = document.createElement('a');
     link.setAttribute('target', '_blank');

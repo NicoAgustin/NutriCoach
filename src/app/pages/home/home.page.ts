@@ -65,10 +65,14 @@ export class HomePage implements OnInit {
     }
   }
 
-  login() {
+  async login() {
     this.utilSvc.presentLoading()
-    this.firebaseSvc.login(this.modelLogin.user, this.modelLogin.contrasena).then(res => {
-      this.darInicio(res)
+    this.firebaseSvc.login(this.modelLogin.user, this.modelLogin.contrasena).then(async res => {
+      (await this.firebaseSvc.getDocument('Usuarios', this.modelLogin.user)).toPromise().then((result) => {
+        let usuario = result.data() as Usuario
+        this.darInicio(res, usuario.nutricionista)
+      })
+     
     }, err => {
       this.utilSvc.dismissLoading()
       var mensaje: string = err.message
