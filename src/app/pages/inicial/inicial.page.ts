@@ -9,7 +9,8 @@ import { FirebaseService } from '../../services/firebase.service';
 import { PlatosXPaciente, ReaccionesXPaciente } from 'src/app/models/plan.model';
 import Swal from 'sweetalert2';
 import { RegistroAlimento, DetalleSemana } from 'src/app/models/plan.model';
-import { ActivatedRoute, Router } from '@angular/router';;
+import { ActivatedRoute, Router } from '@angular/router';
+import { MedicionPaciente, RegistroMedicion } from 'src/app/models/medicion.model';
 
 
 
@@ -36,6 +37,16 @@ export class InicialPage implements OnInit {
     { category: 'Otros', percentage: 0 },
   ];
 
+  dataMed = [
+    {category: 'Peso', value: 0,},
+    {category: 'Talla', value: 0,},
+    {category: 'Cintura', value: 0,},
+    {category: 'Ombligo', value: 0,},
+    {category: 'Cadera', value: 0},
+  ]
+  
+  imc : any
+
   pacienteNutricionista: PacienteXNutricionista;
   paciente: Paciente = {
     email: "",
@@ -60,6 +71,8 @@ export class InicialPage implements OnInit {
   nombreNutricionista: string = ""
   registroAlimentos: RegistroAlimento[] = []
   registroAlimentosEnSemana: RegistroAlimento[] = []
+  registroMedicionesEnSemana: RegistroMedicion[] = []
+  registroMediciones: RegistroMedicion[] = []
   detalleAlimentos: DetalleSemana
   etiquetasGrafico: any[] = []
   valoresGrafico: any[] = []
@@ -103,6 +116,7 @@ export class InicialPage implements OnInit {
     this.getInicioSemana()
     this.obtenerRecomendaciones()
     await this.obtenerRegistros()
+    await this.obtenerMediciones()
     await this.obtenerReacciones()
     await this.obtenerNutricionista().then(() =>
       setTimeout(() => {
@@ -155,6 +169,74 @@ export class InicialPage implements OnInit {
     })
   }
 
+  async obtenerMediciones() {
+    let serv = (await this.firebaseSvc.getRegistro(this.utilSvc.getElementInLocalStorage('correo'), 'Mediciones', 'registros')).subscribe(registros => {
+      this.registroMediciones = registros as RegistroMedicion[]
+      if (this.registroMediciones.length > 0) {
+        this.obtenerMedidas()
+      }
+    })
+    serv.unsubscribe
+  }
+  
+  
+  obtenerMedidas() {
+    let inicio = new Date(this.arrayFechas[0].fechaInicio).toISOString().substring(0, 10)
+    let fin = new Date(this.arrayFechas[0].fechaFin).toISOString().substring(0, 10)
+    this.registroMedicionesEnSemana = []
+    for (let i = 0; i < this.registroMediciones.length; i++) {
+      let fecha = new Date(this.registroMediciones[i].fecha).toISOString().substring(0, 10)
+      if (fecha >= inicio && fecha <= fin) {
+        this.registroMedicionesEnSemana.push(this.registroMediciones[i])
+      }
+    }
+
+    if (this.registroMedicionesEnSemana.length > 0) {
+
+      let primerRegistro = this.registroMedicionesEnSemana[0];
+      let ultimoRegistro = this.registroMedicionesEnSemana[this.registroMedicionesEnSemana.length - 1];
+      let imc = ultimoRegistro.medicion.peso / (ultimoRegistro.medicion.talla/100)**2
+
+      this.imc = imc.toFixed(2)
+
+      for (let x = 0; x < this.dataMed.length; x++) {
+        switch (this.dataMed[x].category) {
+          case "Peso":
+            this.dataMed[x].value = ultimoRegistro.medicion.peso - primerRegistro.medicion.peso;
+            break;
+          case "Talla":
+            this.dataMed[x].value = ultimoRegistro.medicion.talla - primerRegistro.medicion.talla;
+            break;
+          case "Cintura":
+            this.dataMed[x].value = ultimoRegistro.medicion.cintura - primerRegistro.medicion.cintura;
+            break;
+          case "Ombligo":
+            this.dataMed[x].value = ultimoRegistro.medicion.ombligo - primerRegistro.medicion.ombligo;
+            break;
+          case "Cadera":
+            this.dataMed[x].value = ultimoRegistro.medicion.cadera - primerRegistro.medicion.cadera;
+            break;
+        }
+      }
+    }
+    
+  }
+
+  calcularPosicionFlecha() {
+    let seccion = 0;
+  
+    if (this.imc < 18.5) {
+      seccion = 1;
+    } else if (this.imc < 25) {
+      seccion = 2;
+    } else {
+      seccion = 3;
+    }
+  
+    let anchoSeccion = 100 / 3;
+    let centroSeccion = (seccion - 0.5) * anchoSeccion;
+    return `calc(${centroSeccion}% - 7.5px)`;
+  }
 
   async obtenerRegistros() {
     let serv = (await this.firebaseSvc.getRegistro(this.utilSvc.getElementInLocalStorage('correo'), 'Registros', 'registros')).subscribe(registros => {
@@ -316,6 +398,11 @@ export class InicialPage implements OnInit {
 
   verRecomendaciones() {
     this.slidePlan?.nativeElement.swiper.slidePrev(250)
+    this.content.scrollToTop(0);
+  }
+
+  verProgreso() {
+    this.slidePlan?.nativeElement.swiper.slideNext(250)
     this.content.scrollToTop(0);
   }
 
