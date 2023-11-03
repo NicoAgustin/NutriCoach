@@ -280,10 +280,142 @@
         </ion-card-content>
       </ion-card>
     </div>
+    <ion-button (click)="verProgreso()" expand="block" shape="round" color="success">
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      Ver progresos
+    </ion-button>
    
     <ion-button (click)="verRecomendaciones()" expand="block" shape="round" color="success">
       <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
       Ver recomendaciones
+    </ion-button>
+
+  </swiper-slide>
+
+  <swiper-slide>
+    <div class="tituloInicio">
+      <ion-item
+        class="ion-text-center"
+        color="success"
+      >
+        <ion-label>
+          <h1><b>Progreso semanal</b></h1>
+          <p><b>
+              {{arrayFechas[0].fechaInicio | date:'dd/MM/yyyy'}} - {{arrayFechas[0].fechaFin | date:'dd/MM/yyyy'}}
+            </b>
+          </p>
+        </ion-label>
+      </ion-item>
+    </div>
+    <div *ngIf="registroMediciones.length > 0">
+
+      <ion-card>
+        <div class="mediciones">
+          <ion-item
+            color="light"
+            class="caloriasSub"
+          >
+            <ion-label class="subs">
+              <ion-icon
+                size="large"
+                name="accessibility-outline"
+              ></ion-icon>
+      
+              <b>
+                &nbsp;Evolución de tus mediciones
+              </b>
+            </ion-label>
+          </ion-item>
+                    
+          <div class="ion-padding-start ion-padding-end">
+            <ion-grid class="table-med">
+              <ion-row class="table-header">
+                <ion-col>Medida</ion-col>
+                <ion-col>Inicial</ion-col>
+                <ion-col>Ultima</ion-col>
+                <ion-col>+/-</ion-col>
+              </ion-row >
+              <ion-row *ngFor="let item of dataMed" class="table-item">
+                <ion-col>{{item.category}}</ion-col>
+                <ion-col>{{registroMedicionesEnSemana[0].medicion[(item.category).toLowerCase()]}}</ion-col>
+                <ion-col>{{registroMedicionesEnSemana[this.registroMedicionesEnSemana.length - 1].medicion[(item.category).toLowerCase()]}}</ion-col>
+                <ion-col class="positive">{{item.value}}</ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+
+        
+        </div>
+      </ion-card>
+
+      <ion-card class="imc">
+        <div>
+          <ion-item
+            color="light"
+            class="caloriasSub"
+          >
+            <ion-label class="subs">
+              <ion-icon
+                size="large"
+                name="scale-outline"
+              ></ion-icon>
+      
+              <b>
+                &nbsp;Índice de masa corporal
+              </b>
+            </ion-label>
+          </ion-item>
+        </div>
+
+        <div class="ion-padding-start ion-padding-end">
+          <div class="imc-value-header">Tu IMC es:</div>
+          <div class="imc-value">{{imc}}</div>
+          <div class="imc-meter-range">
+            <div class="imc-range">18.5</div>
+            <div class="imc-range">25.0</div>
+            <div class="imc-range">30.0</div>
+          </div>
+          <div class="imc-meter">
+            <div class="imc-section section1"></div>
+            <div class="imc-section section2"></div>
+            <div class="imc-section section3"></div>
+            <div class="imc-label">
+              <div class="arrow" [style.left]="calcularPosicionFlecha()"></div>
+            </div>
+          </div>
+          <div class="imc-meter-titles">
+            <div class="imc-title">Bajo</div>
+            <div class="imc-title">Saludable</div>
+            <div class="imc-title">Sobrepeso</div>
+          </div>
+        </div>
+
+      </ion-card>
+        
+    </div>
+
+    <div *ngIf="registroMediciones.length <= 0">
+      <ion-card color="light">
+        <ion-card-header>
+          <ion-card-title class="ion-text-center"> <b>No hay registros de tu última semana</b></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="contenedor">
+            <img class="plato"
+            id="logo1"
+            src="../../../assets/imagenes/check-list.jpg"
+            alt=""
+            >
+          </div>
+  
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+ 
+    <ion-button (click)="verRecomendaciones()" expand="block" shape="round" color="success">
+      <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      Tu semana
     </ion-button>
 
   </swiper-slide>

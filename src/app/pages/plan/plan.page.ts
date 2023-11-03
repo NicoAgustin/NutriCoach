@@ -172,7 +172,8 @@ export class PlanPage implements OnInit {
             resolve('Verificar valor')
           }
         })
-      }
+      },
+      footer: '<p>Calorias de referencia: <a href="https://recetasdecocina.elmundo.es/tabla-calorias" target="_blank">Pagina web</a></p>'
     })
   }
 
