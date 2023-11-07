@@ -47,6 +47,8 @@ export class MedicionesNutriPage implements OnInit {
   scoreMuscular: number = 0
   masaMuscular: number = 0
 
+  imc: any
+
   constructor(
     private router: Router,
     private firebaseSvc: FirebaseService,
@@ -54,16 +56,18 @@ export class MedicionesNutriPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
-    this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
-    this.utilSvc.presentLoading()
-    this.registroMediciones = []
-    this.inicializar()
-    this.getMediciones()
+      this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
+      this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
+      console.log("Se ejecuta onInit")
+      this.utilSvc.presentLoading()
+      this.registroMediciones = []
+      this.inicializar()
+      this.getMediciones()
   }
 
   ionViewWillEnter(){
     if (this.correo !== this.utilSvc.getElementInLocalStorage('paciente-correo')) {
+      console.log("Se ejecuta ionView")
       this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
       this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
       this.utilSvc.presentLoading()
@@ -96,13 +100,17 @@ export class MedicionesNutriPage implements OnInit {
         this.registroMediciones.push(r)
       })
     })
-    this.registroMediciones.sort((a, b) => {
-      const fechaA = new Date(a.fecha);
-      const fechaB = new Date(b.fecha);
-      return fechaA.getTime() - fechaB.getTime();
-    });
-    this.registroMediciones.reverse()
-    this.calcularIndicadores()
+    if(this.registroMediciones.length > 0){
+      this.registroMediciones.sort((a, b) => {
+        const fechaA = new Date(a.fecha);
+        const fechaB = new Date(b.fecha);
+        return fechaA.getTime() - fechaB.getTime();
+      });
+      this.registroMediciones.reverse()
+      this.imc = (this.registroMediciones[0].medicion.peso / (this.registroMediciones[0].medicion.talla/100)**2).toFixed(2)  //ultimoRegistro.medicion.peso / (ultimoRegistro.medicion.talla/100)**2
+      this.calcularIndicadores()
+    }
+
     setTimeout(() => {
       console.log("Mediciones: ")
       console.log(this.registroMediciones)
@@ -115,7 +123,7 @@ export class MedicionesNutriPage implements OnInit {
       let registro : MedicionNutri = this.registroMediciones[0].medicion
       this.sumaPliegues = Number((registro.pliAbdominal + registro.pliMuslo + registro.pliPantorrilla + registro.pliSubescapular + registro.pliSupraespinal + registro.pliTriceps).toFixed(2))
       this.scoreAdiposa = Number((((this.sumaPliegues * (170.18 / registro.talla)) - 116.41) / 34.79).toFixed(2))
-      this.masaAdiposa = Number((((this.scoreAdiposa * 5.85) + 25.6) / ((170.18 / registro.talla)^3)).toFixed(2))
+      this.masaAdiposa = Number((((this.scoreAdiposa * 5.85) + 25.6) / ((170.18 / registro.talla)**3)).toFixed(2))
       this.perBrazoCor = registro.perBrazoRelajado - ((registro.pliTriceps * 3.141) /10)
       this.perAntebrazoCor = registro.perAntebrazo
       this.perMusloCor = registro.perCadera - ((registro.perMuslo * 3.141) / 10)
@@ -123,7 +131,7 @@ export class MedicionesNutriPage implements OnInit {
       this.perToraxCor = registro.perTorax - ((registro.pliSubescapular * 3.141) / 10)
       this.sumaPerCor = Number((this.perAntebrazoCor + this.perBrazoCor + this.perMusloCor + this.perPantoCor + this.perToraxCor).toFixed(2))
       this.scoreMuscular = Number((((this.sumaPerCor * (170.18 / registro.talla)) - 207.21) / 13.74).toFixed(2))
-      this.masaMuscular = Number((((this.scoreMuscular * 5.4) + 24.5) / ((170.18 / registro.talla)^3)).toFixed(2))
+      this.masaMuscular = Number((((this.scoreMuscular * 5.4) + 24.5) / ((170.18 / registro.talla)**3)).toFixed(2))
     console.log("Fecha: " + this.registroMediciones[0].fecha)
     console.log("Suma pliegues: " + this.sumaPliegues)
     console.log("Score Adiposa: " + this.scoreAdiposa)
@@ -131,6 +139,22 @@ export class MedicionesNutriPage implements OnInit {
     console.log("Masa adiposa: " + this.masaAdiposa)
     console.log("Masa muscular: " + this.masaMuscular)
   }
+}
+
+calcularPosicionFlecha() {
+  let seccion = 0;
+
+  if (this.imc < 18.5) {
+    seccion = 1;
+  } else if (this.imc < 25) {
+    seccion = 2;
+  } else {
+    seccion = 3;
+  }
+
+  let anchoSeccion = 100 / 3;
+  let centroSeccion = (seccion - 0.5) * anchoSeccion;
+  return `calc(${centroSeccion}% - 7.5px)`;
 }
 
   volver() {

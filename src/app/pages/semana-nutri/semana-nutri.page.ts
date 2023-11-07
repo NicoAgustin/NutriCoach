@@ -48,6 +48,7 @@ export class SemanaNutriPage implements OnInit {
 
   async ngOnInit() {
     if (this.correo !== this.utilSvc.getElementInLocalStorage('paciente-correo')) {
+      this.utilSvc.presentLoading()
       this.inicializarVariables()
       this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
       this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
@@ -57,6 +58,7 @@ export class SemanaNutriPage implements OnInit {
 
   async ionViewWillEnter() {
     if (this.correo !== this.utilSvc.getElementInLocalStorage('paciente-correo')) {
+      this.utilSvc.presentLoading()
       this.inicializarVariables()
       this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
       this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
@@ -105,6 +107,9 @@ export class SemanaNutriPage implements OnInit {
     this.getInicioSemana()
     await this.obtenerRegistros()
     await this.obtenerReacciones()
+    setTimeout(async () => {
+      this.utilSvc.dismissLoading()
+    }, 1000);
   }
 
   getInicioSemana() {

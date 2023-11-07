@@ -40,7 +40,29 @@
     </ion-item> -->
 
     <ion-card class="mediciones">
-      <ion-card-subtitle class="ion-padding"><b>Última medición: {{ registroMediciones[0].fecha | date:'dd/MM/yyyy'}}</b></ion-card-subtitle>
+      <ion-card-subtitle style="color:black" class="ion-padding ion-text-center"><b>Última medición: {{ registroMediciones[0].fecha | date:'dd/MM/yyyy'}}</b></ion-card-subtitle>
+      <div class="ion-padding-start ion-padding-end">
+        <div class="imc-value-header">IMC:</div>
+        <div class="imc-value">{{imc}}</div>
+        <div class="imc-meter-range">
+          <div class="imc-range">18.5</div>
+          <div class="imc-range">25.0</div>
+          <div class="imc-range">30.0</div>
+        </div>
+        <div class="imc-meter">
+          <div class="imc-section section1"></div>
+          <div class="imc-section section2"></div>
+          <div class="imc-section section3"></div>
+          <div class="imc-label">
+            <div class="arrow" [style.left]="calcularPosicionFlecha()"></div>
+          </div>
+        </div>
+        <div class="imc-meter-titles">
+          <div class="imc-title">Bajo</div>
+          <div class="imc-title">Saludable</div>
+          <div class="imc-title">Sobrepeso</div>
+        </div>
+      </div>
       <ion-card-content class="inputMediciones">
         <ion-item  color="primary" class="medicion" >
           <ion-label>
