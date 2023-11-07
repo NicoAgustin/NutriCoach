@@ -1,14 +1,56 @@
+<ion-header >
+  <ion-toolbar color="success">
+    <ion-title class="ion-text-center"><b>Tus Pacientes</b></ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true">
-    <ion-card color="light">
-        <ion-card-header>
-            <ion-card-title class="ion-text-center"><b>Tus pacientes</b></ion-card-title>
-        </ion-card-header>
-        <ion-card-content color="light">
-                <ion-list  color="light">
-                  <ion-item *ngFor="let i of [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"  color="light">
-                    <ion-label>Pedro Picapiedras</ion-label>
-                  </ion-item>
-                </ion-list>
-        </ion-card-content>
-    </ion-card>
+
+<div *ngIf='pacientes.length > 0'>
+  <br>
+  <ion-searchbar [debounce]="500" placeholder="Buscar paciente"(ionInput)="handleInput($event)"></ion-searchbar>
+<div *ngIf="ingreso">
+  <ion-list>
+    <ion-item *ngFor="let result of results">
+      <ion-icon name="search-circle-outline" slot="start"></ion-icon>
+      <ion-label (click)="verPaciente(result)">{{ result.nombre }}</ion-label>
+    </ion-item>
+  </ion-list>
+</div>
+  <div *ngIf="!ingreso">
+    <ion-list [inset]="true">
+      <ion-item button detail="true" *ngFor="let paciente of pacientes">
+        <ion-icon (click)="editarOEliminarPaciente(paciente)" color="primary" size="large" name="create-outline" slot="start"></ion-icon>
+        <ion-label (click)="verPaciente(paciente)">{{ paciente.nombre }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</div>
+
+<div *ngIf='pacientes.length == 0'>
+  <ion-card color="light">
+    <ion-card-header>
+      <ion-card-title class="ion-text-center"><b>Aún no has dado de alta un paciente</b></ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+     <div class="contenedor">
+      <img class="plato"
+      id="logo1"
+      src="../../../assets/imagenes/registro-vacio.jpg"
+      alt=""
+      >
+    </div>
+    </ion-card-content>
+  </ion-card>
+
+</div>
+
+
+
+    <ion-fab (click)="agregarPaciente()" slot="fixed" horizontal="end" vertical="bottom">
+      <ion-fab-button>
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
 </ion-content>

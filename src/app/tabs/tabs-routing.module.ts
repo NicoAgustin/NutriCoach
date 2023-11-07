@@ -33,12 +33,40 @@ const routes: Routes = [
         loadChildren: () => import ('../pages/mediciones-nutri/mediciones-nutri.module').then( m => m.MedicionesNutriPageModule)
       },
       {
-        path: 'plan-nutri',
-        loadChildren: () => import ('../pages/plan-nutri/plan-nutri.module').then( m => m.PlanNutriPageModule)
-      },
-      {
         path: 'perfil-nutri',
         loadChildren: () => import ('../pages/perfil-nutri/perfil-nutri.module').then( m => m.PerfilNutriPageModule)
+      },
+      {
+        path: 'ver-paciente-nutri',
+        loadChildren: () => import ('../pages/ver-paciente-nutri/ver-paciente-nutri-routing.module').then(m => m.VerPacienteNutriPageRoutingModule)
+      },
+      {
+        path: 'opciones-paciente-nutri',
+        loadChildren: () => import ('../pages/opciones-paciente-nutri/opciones-paciente-nutri-routing.module').then(m => m.OpcionesPacienteNutriPageRoutingModule)
+      },
+      {
+        path: 'sugerencias-nutri',
+        loadChildren: () => import ('../pages/sugerencias-nutri/sugerencias-nutri-routing.module').then(m => m.SugerenciasNutriPageRoutingModule)
+      },
+      {
+        path: 'semana-nutri',
+        loadChildren: () => import ('../pages/semana-nutri/semana-nutri-routing.module').then(m => m.SemanaNutriPageRoutingModule)
+      },
+      {
+        path: 'registros-nutri',
+        loadChildren: () => import ('../pages/registros-nutri/registros-nutri-routing.module').then(m => m.RegistrosNutriPageRoutingModule)
+      },
+      {
+        path: 'mediciones-paciente-nutri',
+        loadChildren: () => import ('../pages/mediciones-paciente-nutri/mediciones-paciente-nutri.module').then(m => m.MedicionesPacienteNutriPageModule)
+      },
+      {
+        path: 'mediciones-a-tomar-nutri',
+        loadChildren: () => import ('../pages/mediciones-a-tomar-nutri/mediciones-a-tomar-nutri.module').then(m => m.MedicionesATomarNutriPageModule)
+      },
+      {
+        path: 'mediciones-historico-nutri',
+        loadChildren: () => import ('../pages/mediciones-historico-nutri/mediciones-historico-nutri.module').then(m => m.MedicionesHistoricoNutriPageModule)
       }
     ]
   }

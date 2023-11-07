@@ -16,7 +16,40 @@ const routes: Routes = [
   {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule), canActivate: [AuthGuard]
+  },
+  {
+    path: 'ver-paciente-nutri',
+    loadChildren: () => import('./pages/ver-paciente-nutri/ver-paciente-nutri.module').then( m => m.VerPacienteNutriPageModule)
+  },  {
+    path: 'opciones-paciente-nutri',
+    loadChildren: () => import('./pages/opciones-paciente-nutri/opciones-paciente-nutri.module').then( m => m.OpcionesPacienteNutriPageModule)
+  },
+  {
+    path: 'sugerencias-nutri',
+    loadChildren: () => import('./pages/sugerencias-nutri/sugerencias-nutri.module').then( m => m.SugerenciasNutriPageModule)
+  },
+  {
+    path: 'semana-nutri',
+    loadChildren: () => import('./pages/semana-nutri/semana-nutri.module').then( m => m.SemanaNutriPageModule)
+  },
+  {
+    path: 'registros-nutri',
+    loadChildren: () => import('./pages/registros-nutri/registros-nutri.module').then( m => m.RegistrosNutriPageModule)
+  },
+  {
+    path: 'mediciones-paciente-nutri',
+    loadChildren: () => import('./pages/mediciones-paciente-nutri/mediciones-paciente-nutri.module').then( m => m.MedicionesPacienteNutriPageModule)
+  },
+  {
+    path: 'mediciones-a-tomar-nutri',
+    loadChildren: () => import('./pages/mediciones-a-tomar-nutri/mediciones-a-tomar-nutri.module').then( m => m.MedicionesATomarNutriPageModule)
+  },
+  {
+    path: 'mediciones-historico-nutri',
+    loadChildren: () => import('./pages/mediciones-historico-nutri/mediciones-historico-nutri.module').then( m => m.MedicionesHistoricoNutriPageModule)
   }
+
+
 ];
 
 @NgModule({

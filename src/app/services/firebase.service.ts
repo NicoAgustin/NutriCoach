@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AngularFireStorage } from '@angular/fire/compat/storage'
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage'
 import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario.model';
 import { getStorage, uploadString, ref, getDownloadURL, deleteObject } from '@firebase/storage';
 import { RegistroMedicion } from '../models/medicion.model';
 import { UtilsService } from './utils.service';
+import { Observable } from 'rxjs';
+import { finalize, map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -55,9 +57,30 @@ export class FirebaseService {
 
   //Firestore  (Base de Datos)
 
-  getSubcollection(path: string, subcollectionName: string) {
-    return this.db.doc(path).collection(subcollectionName).valueChanges()
+  // getSubcollection(path: string, subcollectionName: string) {
+  //   return this.db.doc(path).collection(subcollectionName).valueChanges()
+  // }
+
+  async getSubcollection(path: string, uid: string, sub: string){
+    return this.db.collection(path).doc(uid).collection(sub).snapshotChanges()
   }
+
+  async addSubcollection(path: string, uid: string, sub: string, registro: any){
+    this.db.collection(path).doc(uid).collection(sub).add(registro)
+  }
+
+  async updateSubcollection(path: string, uid: string, sub: string, doc: string, registro: any){
+    this.db.collection(path).doc(uid).collection(sub).doc(doc).update(registro)
+  }
+
+  async deleteDocSubcollection(path: string, uid: string, sub: string, doc: string){
+    this.db.collection(path).doc(uid).collection(sub).doc(doc).delete()
+  }
+
+  async getDocInSubcollection(path: string, uid: string, sub: string, key: string, value: string){
+    return this.db.collection(path).doc(uid).collection(sub, ref => ref.where(key, '==', value)).get().toPromise()
+  }
+
 
   async setDocument(path: string, uid: string, registro: any) {
     this.db.collection(path).doc(uid).set(registro)
@@ -111,8 +134,30 @@ export class FirebaseService {
     return this.db.collection(path1).doc(uid).collection(path2, ref => ref.where('fecha', '>=', this.utilSvc.getFechaDesde(6))).valueChanges()
   }
 
+  async getRegistroNutri(uid: string, path1: string, path2: string) {
+    return this.db.collection(path1).doc(uid).collection(path2, ref => ref.where('fecha', '>=', this.utilSvc.getFechaDesde(6))).get().toPromise()
+  }
+
+  async getRegistroFecha(uid: string, path1: string, path2: string, fecha: string){
+    return this.db.collection(path1).doc(uid).collection(path2, ref => ref.where('fecha', '>=', fecha)).get().toPromise()
+  }
+
+  async deleteRegistroNutri(uid: string, path1: string, path2:string, id: string){
+    await this.db.collection(path1).doc(uid).collection(path2).doc(id).delete()
+  }
+
   async setRegistro(uid: string, path1: string, path2: string, registro: any) {
     this.db.collection(path1).doc(uid).collection(path2).add(registro)
   }
 
-}
+  uploadFile(file: File, id: string): Promise<string> {
+    const folderName = id;
+    const filePath = `${folderName}/receta.pdf`;
+
+    const fileRef = this.storage.ref(filePath);
+    return fileRef.put(file).then((snapshot) => {
+      return snapshot.ref.getDownloadURL();
+    });
+  }
+
+    }

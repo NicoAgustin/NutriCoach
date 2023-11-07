@@ -1,3 +1,106 @@
+<ion-header >
+    <ion-toolbar color="success">
+      <ion-buttons (click)="volver()" slot="start">
+        <ion-icon size="large" slot="icon-only" name="arrow-back-circle-outline"></ion-icon>
+    </ion-buttons>
+      <ion-title class="ion-text-center"><b>{{ nombre }}</b></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
 <ion-content [fullscreen]="true">
+    <br>
+  <ion-item color="warning" button class="opciones">
+    <ion-icon  size="large" class="ion-padding-start" slot="start"  name="accessibility-outline"></ion-icon>
+    <ion-label (click)="verMediciones()" class="ion-text-center">
+      <h2><b> Tomadas por el paciente </b></h2>
+      </ion-label>
+      <ion-icon slot="end" color="primary" name="chevron-forward-outline"></ion-icon>
+  </ion-item>
+<br>
+  <ion-item color="warning" button class="opciones">
+    <ion-icon  size="large" class="ion-padding-start" slot="start"  name="analytics-outline"></ion-icon>
+    <ion-label (click)="tomarMediciones()" class="ion-text-center">
+      <h2><b> Medir </b></h2>
+      </ion-label>
+      <ion-icon slot="end" color="primary" name="chevron-forward-outline"></ion-icon>
+  </ion-item>
+  <br>
+  <ion-item color="medium" button class="opciones">
+    <ion-icon  size="large" class="ion-padding-start" slot="start"  name="calendar-outline"></ion-icon>
+    <ion-label (click)="verHistorico()" class="ion-text-center">
+      <h2><b> Histórico </b></h2>
+      </ion-label>
+      <ion-icon slot="end" color="primary" name="chevron-forward-outline"></ion-icon>
+  </ion-item>
+
+  <div *ngIf='registroMediciones.length > 0'>
+    <br>
+    <!-- <ion-item color="light">
+      <ion-label class="ion-text-center"> <b>Última medición: {{ registroMediciones[0].fecha | date:'dd/MM/yyyy'}}</b></ion-label>
+    </ion-item> -->
+
+    <ion-card class="mediciones">
+      <ion-card-subtitle class="ion-padding"><b>Última medición: {{ registroMediciones[0].fecha | date:'dd/MM/yyyy'}}</b></ion-card-subtitle>
+      <ion-card-content class="inputMediciones">
+        <ion-item  color="primary" class="medicion" >
+          <ion-label>
+            <h2>Suma de pliegues</h2>
+            <h1 *ngIf='sumaPliegues !== 0' class="ion-text-center"><b>{{sumaPliegues}}</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="primary" class="medicion" button >
+          <ion-label>
+            <h2>Score Z adiposa</h2>
+            <h1 *ngIf='scoreAdiposa !== 0' class="ion-text-center"><b>{{scoreAdiposa}}</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="primary" class="medicion" button >
+          <ion-label>
+            <h2>Masa adiposa</h2>
+            <h1 *ngIf='masaAdiposa !== 0' class="ion-text-center"><b>{{masaAdiposa}} kg</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="primary" class="medicion" button >
+          <ion-label>
+            <h2>Suma perímetros corregidos</h2>
+            <h1 *ngIf='sumaPerCor !== 0' class="ion-text-center"><b>{{sumaPerCor}} </b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="primary" class="medicion" button >
+          <ion-label>
+            <h2>Score Z Muscular</h2>
+            <h1 *ngIf='scoreMuscular !== 0' class="ion-text-center"><b>{{scoreMuscular}}</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="primary" class="medicion" button >
+          <ion-label>
+            <h2>Masa muscular</h2>
+            <h1 *ngIf='masaMuscular !== 0' class="ion-text-center"><b>{{masaMuscular}} kg</b></h1>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+
+  </div>
+
+  <div *ngIf='registroMediciones.length == 0'>
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center"> <b>No hay registro de mediciones</b></ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+          <!-- <p class="ion-text-center" >No hay registros de tu última semana</p> -->
+        <div class="contenedor">
+          <img class="plato"
+          id="logo1"
+          src="../../../assets/imagenes/check-list.jpg"
+          alt=""
+          >
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
 
 </ion-content>

@@ -20,3 +20,18 @@ export interface PacienteXNutricionista {
     nutricionista: string,
     perfilCompleto: boolean
 }
+
+export interface Nutricionista {
+    email: string,
+    nombre: string,
+    fotoPerfil: string,
+    matricula: string,
+    telefono: string,
+    Pacientes: PacienteNutri[]
+}
+
+export interface PacienteNutri {
+    nombre: string,
+    correo: string
+}
+

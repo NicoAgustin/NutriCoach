@@ -1,0 +1,91 @@
+<ion-header >
+  <ion-toolbar color="success">
+    <ion-buttons (click)="volver()" slot="start">
+      <ion-icon size="large" slot="icon-only" name="arrow-back-circle-outline"></ion-icon>
+  </ion-buttons>
+    <ion-title class="ion-text-center"><b>{{ nombre }}</b></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div *ngIf="!hayRecomendaciones">
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center"> <b>El paciente aún no cuenta con recomendaciones</b></ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div>
+          <img 
+          src="../../../assets/imagenes/check-list.jpg"
+          alt="">
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ion-card *ngIf='recomendacion.cena.length > 0' color="warning">
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">Almuerzo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="contenedor">
+
+        <div class="contenedor">
+          <img class="plato"
+          id="logo1"
+          [src]= recomendacion.almuerzo
+          alt=""
+          >
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf='recomendacion.cena.length > 0' color="dark">
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">Cena</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="contenedor">
+
+        <div class="contenedor">
+          <img class="plato"
+          id="logo1"
+          [src]= recomendacion.cena
+          alt=""
+          >
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf='recomendacion.recomendaciones.length > 0' color="light">
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">Recomendaciones</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p class="ion-text-center">{{ recomendacion.recomendaciones }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- <ion-fab (click)="agregarRecomendacion()" slot="fixed" horizontal="end" vertical="bottom">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="chevron-up-circle"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="success" (click)="agregarReceta()">
+        <ion-icon size="large" name="document"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="success" (click)="agregarRecomendacion()">
+        <ion-icon size="large" name="nutrition-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-content>

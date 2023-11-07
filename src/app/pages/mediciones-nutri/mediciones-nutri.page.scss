@@ -1,8 +1,38 @@
 ion-content {
-    --background: none;
-    background: url(../../../assets/imagenes/fondo-verduras.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-  }
+  --background: none;
+  background: url(../../../assets/imagenes/fondo-verduras.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.opciones{
+  border-radius: 20px 20px 20px 20px;
+}
+
+.contenedor{
+  display: flex;
+  justify-content: center; 
+  width: 100%;
+  max-height: 300px;
+}
+
+.mediciones{
+  background-color: #dff7f4;
+}
+
+.inputMediciones{
+  font-size: 22px;
+  color: black;
+}
+
+.perimetros{
+  background-color: #dff7f4;
+}
+
+.medicion{
+  border-radius: 20px 20px 20px 20px;
+  margin-bottom: 5px;
+}
+
