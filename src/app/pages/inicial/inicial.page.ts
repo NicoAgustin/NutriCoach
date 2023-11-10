@@ -10,7 +10,6 @@ import { PlatosXPaciente, ReaccionesXPaciente } from 'src/app/models/plan.model'
 import Swal from 'sweetalert2';
 import { RegistroAlimento, DetalleSemana } from 'src/app/models/plan.model';
 import { ActivatedRoute, Router } from '@angular/router';import { RegistroMedicion } from 'src/app/models/medicion.model';
-;
 
 
 
