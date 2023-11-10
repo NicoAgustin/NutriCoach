@@ -367,7 +367,7 @@
           </ion-item>
         </div>
 
-        <div class="ion-padding-start ion-padding-end">
+        <div *ngIf='imc > 0' class="ion-padding-start ion-padding-end">
           <div class="imc-value-header">Tu IMC es:</div>
           <div class="imc-value">{{imc}}</div>
           <div class="imc-meter-range">
@@ -388,6 +388,12 @@
             <div class="imc-title">Saludable</div>
             <div class="imc-title">Sobrepeso</div>
           </div>
+        </div>
+
+        <div class="ion-align-items-center" *ngIf='!(imc > 0)'>
+          <br>
+          <br>
+        <h1 style="color:black" class="ion-text-center"><b>SIN DATOS</b></h1>
         </div>
 
       </ion-card>
