@@ -354,8 +354,7 @@ export class HomePage implements OnInit {
             fotoPerfil: "",
             matricula: this.nutri,
             nombre: "",
-            telefono: "",
-            Pacientes: []
+            telefono: ""
           }
           let uid = seRegistra.user.email
           let mat = Number(this.nutri)

@@ -27,7 +27,6 @@ export interface Nutricionista {
     fotoPerfil: string,
     matricula: string,
     telefono: string,
-    Pacientes: PacienteNutri[]
 }
 
 export interface PacienteNutri {

@@ -24,8 +24,7 @@ export class PerfilNutriPage implements OnInit {
       fotoPerfil: "https://ionicframework.com/docs/img/demos/avatar.svg",
       matricula: "",
       nombre: "",
-      telefono: "",
-      Pacientes: []
+      telefono: ""
     }
     loading: boolean = false
     foto: string
