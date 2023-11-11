@@ -9,8 +9,7 @@ import { FirebaseService } from '../../services/firebase.service';
 import { PlatosXPaciente, ReaccionesXPaciente } from 'src/app/models/plan.model';
 import Swal from 'sweetalert2';
 import { RegistroAlimento, DetalleSemana } from 'src/app/models/plan.model';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MedicionPaciente, RegistroMedicion } from 'src/app/models/medicion.model';
+import { ActivatedRoute, Router } from '@angular/router';import { RegistroMedicion } from 'src/app/models/medicion.model';
 
 
 
@@ -178,8 +177,7 @@ export class InicialPage implements OnInit {
     })
     serv.unsubscribe
   }
-  
-  
+
   obtenerMedidas() {
     let inicio = new Date(this.arrayFechas[0].fechaInicio).toISOString().substring(0, 10)
     let fin = new Date(this.arrayFechas[0].fechaFin).toISOString().substring(0, 10)
@@ -219,7 +217,6 @@ export class InicialPage implements OnInit {
         }
       }
     }
-    
   }
 
   calcularPosicionFlecha() {
@@ -237,6 +234,7 @@ export class InicialPage implements OnInit {
     let centroSeccion = (seccion - 0.5) * anchoSeccion;
     return `calc(${centroSeccion}% - 7.5px)`;
   }
+
 
   async obtenerRegistros() {
     let serv = (await this.firebaseSvc.getRegistro(this.utilSvc.getElementInLocalStorage('correo'), 'Registros', 'registros')).subscribe(registros => {
@@ -428,11 +426,6 @@ export class InicialPage implements OnInit {
       })
     }
   }
-
-
-
-
-
 
 }
 

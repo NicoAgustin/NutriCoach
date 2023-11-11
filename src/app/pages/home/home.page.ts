@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { FirebaseService } from '../../services/firebase.service';
 import { UtilsService } from '../../services/utils.service';
-import { Usuario, PacienteXNutricionista } from 'src/app/models/usuario.model';
+import { Usuario, PacienteXNutricionista, Nutricionista } from 'src/app/models/usuario.model';
 import { PlatosXPaciente, ReaccionesXPaciente } from 'src/app/models/plan.model';
 
 
@@ -349,14 +349,20 @@ export class HomePage implements OnInit {
             cuentaActiva: true,
             fechaDePausa: ""
           }
+          let nutricionistaNuevo: Nutricionista = {
+            email: this.correo,
+            fotoPerfil: "",
+            matricula: this.nutri,
+            nombre: "",
+            telefono: ""
+          }
           let uid = seRegistra.user.email
           let mat = Number(this.nutri)
-          this.firebaseSvc.setDocument('Usuarios', uid, user)
-          // let uid = seRegistra.user.email
-          // await this.firebaseSvc.setNutricionistaField(uid, true)
+          await this.firebaseSvc.setDocument('Usuarios', uid, user)
           let imagepath = `${uid}/${mat}`
           let imageURL = await this.firebaseSvc.uploadImage(imagepath, this.fotoTitulo)
           await this.firebaseSvc.setMatricula(uid, Number(this.nutri), imageURL)
+          await this.firebaseSvc.setDocument('Nutricionistas', this.correo, nutricionistaNuevo)
           this.darInicio(seRegistra, true)
         } else {
           this.utilSvc.dismissLoading()
@@ -400,10 +406,21 @@ export class HomePage implements OnInit {
     this.utilSvc.setElementInLocalStorage('correo', correo)
     if (typeof esNutri !== 'undefined'){
       await this.utilSvc.setElementInLocalStorage('nutricionista', esNutri)
-      nutricionista = esNutri
-    } else {
+      nutricionista = esNutri;
+      (await this.firebaseSvc.getDocument('Usuarios', correo)).toPromise().then( async (doc) => {
+        let user: Usuario = doc.data() as Usuario
+        if(!user.cuentaActiva){
+          let userUpdt: Usuario = {
+            cuentaActiva: true,
+            fechaDePausa: "",
+            nutricionista: nutricionista
+          }
+          console.log("Se va a actualizar el usuario")
+        await this.firebaseSvc.updateDocument('Usuarios', correo, userUpdt)
+        }
+      })}
+     else {
       (await this.firebaseSvc.getDocument('Usuarios', correo)).toPromise().then(async (doc) =>{
-        // let user = doc.data as unknown as Usuario
         let user : Usuario = doc.data() as Usuario
         nutricionista = user.nutricionista
         console.log("Cuenta activa?:" + user.cuentaActiva)
@@ -417,7 +434,6 @@ export class HomePage implements OnInit {
         await this.firebaseSvc.updateDocument('Usuarios', correo, userUpdt)
         }
       })
-      // nutricionista = await this.firebaseSvc.getNutricionistaField(correo)
       await this.utilSvc.setElementInLocalStorage('nutricionista', nutricionista)
 
     }

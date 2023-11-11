@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PlanNutriPageRoutingModule } from './plan-nutri-routing.module';
+import { RegistrosNutriPageRoutingModule } from './registros-nutri-routing.module';
 
-import { PlanNutriPage } from './plan-nutri.page';
+import { RegistrosNutriPage } from './registros-nutri.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PlanNutriPageRoutingModule
+    RegistrosNutriPageRoutingModule
   ],
-  declarations: [PlanNutriPage]
+  declarations: [RegistrosNutriPage]
 })
-export class PlanNutriPageModule {}
+export class RegistrosNutriPageModule {}

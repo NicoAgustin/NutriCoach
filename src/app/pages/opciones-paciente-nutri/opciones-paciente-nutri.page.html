@@ -1,0 +1,54 @@
+<ion-header >
+  <ion-toolbar color="success">
+    <ion-buttons (click)="volver()" slot="start">
+      <ion-icon size="large" slot="icon-only" name="arrow-back-circle-outline"></ion-icon>
+  </ion-buttons>
+    <ion-title class="ion-text-center"><b>{{ nombre }}</b></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="separador"></div>
+  <div class="menu">
+  <ion-item color="dark" button class="opciones">
+    <ion-icon  size="large" class="ion-padding-start" slot="start"  name="person-circle-outline"></ion-icon>
+    <ion-label (click)="verPerfil()" class="ion-text-center">
+      <h1><b> Perfil </b></h1>
+      </ion-label>
+      <ion-icon slot="end" color="primary" name="chevron-forward-outline"></ion-icon>
+  </ion-item>
+  <br>
+  <ion-item color="dark" button class="opciones">
+    <ion-icon  size="large" class="ion-padding-start" slot="start"  name="list-circle-outline"></ion-icon>
+    <ion-label (click)="verSugerencias()" class="ion-text-center">
+      <h1><b> Sugerencias </b></h1>
+      </ion-label>
+      <ion-icon slot="end" color="primary" name="chevron-forward-outline"></ion-icon>
+  </ion-item>
+<br>
+  <ion-item color="dark" button class="opciones">
+    <ion-icon  size="large" class="ion-padding-start" slot="start"  name="calendar-outline"></ion-icon>
+    <ion-label (click)="verSemana()" class="ion-text-center">
+      <h1><b> Semana </b></h1>
+      </ion-label>
+      <ion-icon slot="end" color="primary" name="chevron-forward-outline"></ion-icon>
+  </ion-item>
+  <br>
+  <ion-item color="dark" button class="opciones">
+    <ion-icon  size="large" class="ion-padding-start" slot="start"  name="analytics-outline"></ion-icon>
+    <ion-label (click)="verMediciones()" class="ion-text-center">
+      <h1><b> Mediciones </b></h1>
+      </ion-label>
+      <ion-icon slot="end" color="primary" name="chevron-forward-outline"></ion-icon>
+  </ion-item>
+  <br>
+  <ion-item color="dark" button class="opciones">
+    <ion-icon  size="large" class="ion-padding-start" slot="start"  name="clipboard-outline"></ion-icon>
+    <ion-label (click)="verRegistros()" class="ion-text-center">
+      <h1><b> Registros </b></h1>
+      </ion-label>
+      <ion-icon slot="end" color="primary" name="chevron-forward-outline"></ion-icon>
+  </ion-item>
+  </div>
+  <div class="separador"></div>
+</ion-content>

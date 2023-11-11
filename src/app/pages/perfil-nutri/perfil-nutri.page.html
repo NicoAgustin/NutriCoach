@@ -1,3 +1,68 @@
 <ion-content [fullscreen]="true">
+
+  <div *ngIf="loading">
+    <ion-card >
+      <ion-card-header>
+        Información de usuario
+      </ion-card-header>
+      <ion-card-content *ngFor="let item of [1,1,1,1,1,1]">
+        <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+  <div *ngIf="!loading">
+    <ion-card>
+      <ion-card-header>
+        Información de usuario
+      </ion-card-header>
+      <!-- ----------Informacion de usuario con datos cargados ---------- -->
+      <ion-card-content>
+        <div (click)="editarFoto()" class="center-avatar">
+          <ion-avatar>
+            <ion-img [src]=this.perfil.fotoPerfil alt="Silhouette of a person's head" class="avatar-img"></ion-img>
+          </ion-avatar>
+        </div>
+        <ion-list>
+          <ion-item>
+            <ion-label>
+              <p>Email:</p>
+              <ion-text>{{ perfil.email }}</ion-text>
+            </ion-label>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label>
+              <p>Nombre Completo:</p>
+              <ion-text>{{ perfil.nombre }}</ion-text>
+            </ion-label>
+            <ion-icon name="create-outline" slot="end" (click)="modificarDato('nombre')" color="primary"></ion-icon>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label>
+              <p>Teléfono:</p>
+              <ion-text>{{ perfil.telefono }}</ion-text>
+            </ion-label>
+            <ion-icon name="create-outline" slot="end" (click)="modificarDato('telefono')" color="primary"></ion-icon>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label>
+              <p>Matrícula:</p>
+              <ion-text>{{ perfil.matricula }}</ion-text>
+            </ion-label>
+            <!-- <ion-icon name="create-outline" slot="end" (click)="modificarDato('obraSocial')" color="primary"></ion-icon> -->
+          </ion-item>
+  
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+    </div>
+
+
+  <ion-button (click)="cambiarContrasena()" expand="block" color="primary" class="ion-padding">Cambiar contraseña</ion-button>
   <ion-button (click)="cerrarSesion()" expand="block" color="primary" class="ion-padding">Cerrar sesión</ion-button>
+  <ion-button (click)="eliminarCuenta()" expand="block" color="danger" class="ion-padding">Eliminar cuenta</ion-button>
 </ion-content>

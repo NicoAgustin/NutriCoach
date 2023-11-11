@@ -1,0 +1,92 @@
+<ion-header >
+  <ion-toolbar color="success">
+    <ion-buttons (click)="volver()" slot="start">
+      <ion-icon size="large" slot="icon-only" name="arrow-back-circle-outline"></ion-icon>
+  </ion-buttons>
+    <ion-title class="ion-text-center"><b>{{ nombre }}</b></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-card class="calendario">
+    <ion-card-subtitle class="ion-padding">Fecha de registro</ion-card-subtitle>
+    <ion-card-title class="ion-text-center">{{ registroFecha | date: 'dd/MM/yyyy' }}</ion-card-title>
+   <ion-card-content id="dateMedPacNut">
+    <ion-icon  color="primary" size="large" name="chevron-down-circle-outline"></ion-icon>
+   </ion-card-content>
+  </ion-card>
+  <ion-popover trigger="dateMedPacNut" >
+      <ng-template>
+          <ion-datetime #datetimeIdMedicion  [showDefaultButtons]="true" doneText="Aceptar" cancelText="Cancelar" presentation="date" (ngModel)="registroFecha" (ionChange)="setDate(datetimeIdMedicion.value)" locale="es-AR" max={{max}} [highlightedDates]="highlightedDates"></ion-datetime>
+      </ng-template>
+  </ion-popover>
+
+  <div *ngIf="!(medicion.peso == 0 && medicion.talla == 0 && medicion.cintura == 0 && medicion.ombligo == 0 && medicion.cadera == 0)">
+
+    <ion-card class="mediciones">
+      <ion-card-subtitle class="ion-padding">Básicas</ion-card-subtitle>
+      <ion-card-content class="inputMediciones">
+    
+        <ion-item color="secondary" class="medicion" button >
+          <ion-label>
+            <h2>Peso</h2>
+            <h1 *ngIf="medicion.peso!=0" class="ion-text-center"><b>{{medicion.peso}} kg</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item color="secondary" class="medicion" button >
+          <ion-label>
+            <h2>Talla</h2>
+            <h1 *ngIf="medicion.talla!=0" class="ion-text-center"><b>{{medicion.talla}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+    
+    
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-card class="perimetros">
+      <ion-card-subtitle class="ion-padding">Perímetros</ion-card-subtitle>
+      <ion-card-content class="inputMediciones">
+        <ion-item  color="secondary" class="medicion" >
+          <ion-label>
+            <h2>Cintura</h2>
+            <h1 *ngIf="medicion.cintura!=0" class="ion-text-center"><b>{{medicion.cintura}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="secondary" class="medicion" >
+          <ion-label>
+            <h2>Ombligo</h2>
+            <h1 *ngIf="medicion.ombligo!=0" class="ion-text-center"><b>{{medicion.ombligo}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="secondary" class="medicion" >
+          <ion-label>
+            <h2>Cadera</h2>
+            <h1 *ngIf="medicion.cadera!=0" class="ion-text-center"><b>{{medicion.cadera}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>    
+  </div>
+
+  <div *ngIf="(medicion.peso == 0 && medicion.talla == 0 && medicion.cintura == 0 && medicion.ombligo == 0 && medicion.cadera == 0)">
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center"> <b>No hay registros</b></ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+          <!-- <p class="ion-text-center" >No hay registros de tu última semana</p> -->
+        <div class="contenedor">
+          <img class="plato"
+          id="logo1"
+          src="../../../assets/imagenes/check-list.jpg"
+          alt=""
+          >
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+</ion-content>

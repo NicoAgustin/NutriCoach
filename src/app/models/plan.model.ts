@@ -36,3 +36,12 @@ export interface AlimentoCategoria {
     agua: number,
     caloriasQuemadas: number
   }
+
+  export interface Platos {
+    plato1: string,
+    plato2: string,
+    plato3: string,
+    plato4: string,
+    plato5: string,
+    plato6: string,
+  }

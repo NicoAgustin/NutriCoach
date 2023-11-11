@@ -1,0 +1,166 @@
+<ion-header >
+  <ion-toolbar color="success">
+    <ion-buttons (click)="volver()" slot="start">
+      <ion-icon size="large" slot="icon-only" name="arrow-back-circle-outline"></ion-icon>
+  </ion-buttons>
+    <ion-title class="ion-text-center"><b>{{ nombre }}</b></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-card class="calendario">
+    <ion-card-subtitle class="ion-padding">Fecha de registro</ion-card-subtitle>
+    <ion-card-title class="ion-text-center">{{ registroFecha | date: 'dd/MM/yyyy' }}</ion-card-title>
+   <ion-card-content id="dateHistorico">
+    <ion-icon  color="primary" size="large" name="chevron-down-circle-outline"></ion-icon>
+   </ion-card-content>
+  </ion-card>
+  <ion-popover trigger="dateHistorico" >
+      <ng-template>
+          <ion-datetime #datetimeIdMedicion  [showDefaultButtons]="true" doneText="Aceptar" cancelText="Cancelar" presentation="date" (ngModel)="registroFecha" (ionChange)="setDate(datetimeIdMedicion.value)" locale="es-AR" max={{max}} [highlightedDates]="highlightedDates"></ion-datetime>
+      </ng-template>
+  </ion-popover>
+
+  <div *ngIf='hayRegistro'>
+
+    <ion-card class="mediciones">
+      <ion-card-subtitle class="ion-padding"><b>Básicas</b></ion-card-subtitle>
+      <ion-card-content class="inputMediciones">
+        <ion-item  color="secondary" class="medicion" button >
+          <ion-label>
+            <h2>Peso</h2>
+            <h1 *ngIf="medicion.peso!=0" class="ion-text-center"><b>{{medicion.peso}} kg</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item color="secondary" class="medicion" button >
+          <ion-label>
+            <h2>Talla</h2>
+            <h1 *ngIf="medicion.talla!=0" class="ion-text-center"><b>{{medicion.talla}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-card class="perimetros">
+      <ion-card-subtitle class="ion-padding"><b>Perímetros</b></ion-card-subtitle>
+      <ion-card-content class="inputMediciones">
+        <ion-item  color="secondary" class="medicion" >
+          <ion-label>
+            <h2>Cabeza</h2>
+            <h1 *ngIf="medicion.perCabeza!=0" class="ion-text-center"><b>{{medicion.perCabeza}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="secondary" class="medicion" >
+          <ion-label>
+            <h2>Brazo relajado</h2>
+            <h1 *ngIf="medicion.perBrazoRelajado!=0" class="ion-text-center"><b>{{medicion.perBrazoRelajado}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="secondary" class="medicion" >
+          <ion-label>
+            <h2>Brazo flexionado</h2>
+            <h1 *ngIf="medicion.perBrazoFlexionado!=0" class="ion-text-center"><b>{{medicion.perBrazoFlexionado}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="secondary" class="medicion" >
+          <ion-label>
+            <h2>Antebrazo</h2>
+            <h1 *ngIf="medicion.perAntebrazo!=0" class="ion-text-center"><b>{{medicion.perAntebrazo}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="secondary" class="medicion" >
+          <ion-label>
+            <h2>Tórax</h2>
+            <h1 *ngIf="medicion.perTorax!=0" class="ion-text-center"><b>{{medicion.perTorax}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="secondary" class="medicion" >
+          <ion-label>
+            <h2>Cintura</h2>
+            <h1 *ngIf="medicion.perCintura!=0" class="ion-text-center"><b>{{medicion.perCintura}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item  color="secondary" class="medicion" >
+          <ion-label>
+            <h2>Cadera</h2>
+            <h1 *ngIf="medicion.perCadera!=0" class="ion-text-center"><b>{{medicion.perCadera}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item color="secondary" class="medicion" >
+          <ion-label>
+            <h2>Muslo</h2>
+            <h1 *ngIf="medicion.perMuslo!=0" class="ion-text-center"><b>{{medicion.perMuslo}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item color="secondary" class="medicion" >
+          <ion-label>
+            <h2>Pantorrilla</h2>
+            <h1 *ngIf="medicion.perPantorrilla!=0" class="ion-text-center"><b>{{medicion.perPantorrilla}} cm</b></h1>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>    
+  
+    <ion-card class="mediciones">
+      <ion-card-subtitle class="ion-padding"><b>Pliegues</b></ion-card-subtitle>
+      <ion-card-content class="inputMediciones">
+        <ion-item color="secondary" class="medicion" button >
+          <ion-label>
+            <h2>Tríceps</h2>
+            <h1 *ngIf="medicion.pliTriceps!=0" class="ion-text-center"><b>{{medicion.pliTriceps}} mm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item color="secondary" class="medicion" button >
+          <ion-label>
+            <h2>Subescapular</h2>
+            <h1 *ngIf="medicion.pliSubescapular!=0" class="ion-text-center"><b>{{medicion.pliSubescapular}} mm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item color="secondary" class="medicion" button >
+          <ion-label>
+            <h2>Supraespinal</h2>
+            <h1 *ngIf="medicion.pliSupraespinal!=0" class="ion-text-center"><b>{{medicion.pliSupraespinal}} mm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item color="secondary" class="medicion" button >
+          <ion-label>
+            <h2>Abdominal</h2>
+            <h1 *ngIf="medicion.pliAbdominal!=0" class="ion-text-center"><b>{{medicion.pliAbdominal}} mm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item color="secondary" class="medicion" button >
+          <ion-label>
+            <h2>Muslo</h2>
+            <h1 *ngIf="medicion.pliMuslo!=0" class="ion-text-center"><b>{{medicion.pliMuslo}} mm</b></h1>
+          </ion-label>
+        </ion-item>
+        <ion-item color="secondary" class="medicion" button >
+          <ion-label>
+            <h2>Pantorrilla</h2>
+            <h1 *ngIf="medicion.pliPantorrilla!=0" class="ion-text-center"><b>{{medicion.pliPantorrilla}} mm</b></h1>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf='!hayRegistro'>
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center"> <b>No hay registros</b></ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="contenedor">
+          <img class="plato"
+          id="logo1"
+          src="../../../assets/imagenes/check-list.jpg"
+          alt=""
+          >
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  
+</ion-content>

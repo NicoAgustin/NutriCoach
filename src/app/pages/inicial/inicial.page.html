@@ -162,20 +162,31 @@
               </b>
             </ion-label>
           </ion-item>
-      
-          <h1 class="numCalIngeridas">
-            <b>{{ detalleAlimentos.caloriasTotales }} kcal</b>
-          </h1>
-      
-          <!-- <canvas
-            baseChart="baseChart"
-            class="chart"
-            [data]="doughnutChartData"
-            [type]="doughnutChartType"
-            [legend]="true"
-          ></canvas> -->
+          
           <div class="ion-padding-start ion-padding-end">
-            <div class="bar-chart">
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="10">
+                  <h1 class="numCalIngeridas">
+                    <b>{{ detalleAlimentos.caloriasTotales }} kcal</b>
+                  </h1>
+                </ion-col>
+                <ion-col size="2" class="center-icon">
+                  <div *ngIf="reacciones.caloriasIngeridas.length > 0 ">
+                    <ion-icon
+                      (click)="verReaccion(reacciones.caloriasIngeridas)"
+                      [color]= colorReaccioncaloriasIngeridas
+                      size="large"
+                      [name]= '((reacciones.caloriasIngeridas !="happy-outline") && (reacciones.caloriasIngeridas !="sad-outline")) ? "chatbubble-ellipses-outline" : reacciones.caloriasIngeridas'
+                    ></ion-icon>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+      
+          <ion-card-content>
+            <div class="ion-padding-bottom">
               <div *ngFor="let item of data" class="bar">
                 <div class="bar-label">{{ item.category }}</div>
                 <div class="bar-outer">
@@ -184,22 +195,12 @@
                   </div>
                 </div>
               </div>
-            </div>
           </div>
-          
-      
-          <div *ngIf="reacciones.caloriasIngeridas.length > 0 " class="reaccionCalorias">
-            <ion-icon
-              (click)="verReaccion(reacciones.caloriasIngeridas)"
-              [color]= colorReaccioncaloriasIngeridas
-              size="large"
-              [name]= '((reacciones.caloriasIngeridas !="happy-outline") && (reacciones.caloriasIngeridas !="sad-outline")) ? "chatbubble-ellipses-outline" : reacciones.caloriasIngeridas'
-            ></ion-icon>
-          </div>
+          </ion-card-content>
         </div>
       </ion-card>
+
       <ion-card color="warning">
-        
         <div class="caloriasQuemadas">
           <ion-item
             color="warning"
@@ -214,18 +215,27 @@
               <b>Promedio calorías quemadas</b>
             </ion-label>
           </ion-item>
-      
-          <h1 class="ion-padding-bottom ion-text-center">
-            <b>{{ detalleAlimentos.caloriasQuemadas }} kcal</b>
-          </h1>
-      
-          <div  *ngIf="reacciones.caloriasQuemadas.length > 0 " class="reaccionCaloriasQ">
-            <ion-icon
-            (click)="verReaccion(reacciones.caloriasQuemadas)"
-              [color]= colorReaccioncaloriasQuemadas
-              size="large"
-              [name]= '((reacciones.caloriasQuemadas !="happy-outline") && (reacciones.caloriasQuemadas !="sad-outline")) ? "chatbubble-ellipses-outline" : reacciones.caloriasQuemadas'
-            ></ion-icon>
+
+          <div class="ion-padding-start ion-padding-end">
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="10">
+                  <h1 class="ion-padding-bottom ion-text-center">
+                    <b>{{ detalleAlimentos.caloriasQuemadas }} kcal</b>
+                  </h1>
+                </ion-col>
+                <ion-col size="2" class="center-icon">
+                  <div  *ngIf="reacciones.caloriasQuemadas.length > 0 ">
+                    <ion-icon
+                    (click)="verReaccion(reacciones.caloriasQuemadas)"
+                      [color]= colorReaccioncaloriasQuemadas
+                      size="large"
+                      [name]= '((reacciones.caloriasQuemadas !="happy-outline") && (reacciones.caloriasQuemadas !="sad-outline")) ? "chatbubble-ellipses-outline" : reacciones.caloriasQuemadas'
+                    ></ion-icon>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </div>
         </div>
       </ion-card>
@@ -245,18 +255,27 @@
               <b>Promedio agua bebida</b>
             </ion-label>
           </ion-item>
-      
-          <h1 class="ion-padding-bottom ion-text-center">
-            <b>{{ detalleAlimentos.agua }} L</b>
-          </h1>
-      
-          <div  *ngIf="reacciones.aguaBebida.length > 0 " class="reaccionAgua">
-            <ion-icon
-              (click)="verReaccion(reacciones.aguaBebida)"
-              [color] = colorReaccionaguaBebida
-              size="large"
-              [name]= '((reacciones.aguaBebida !="happy-outline") && (reacciones.aguaBebida !="sad-outline")) ? "chatbubble-ellipses-outline" : reacciones.aguaBebida'
-            ></ion-icon>
+
+          <div class="ion-padding-start ion-padding-end">
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="10">
+                  <h1 class="ion-padding-bottom ion-text-center">
+                    <b>{{ detalleAlimentos.agua }} L</b>
+                  </h1>
+                </ion-col>
+                <ion-col size="2" class="center-icon">
+                  <div  *ngIf="reacciones.aguaBebida.length > 0 ">
+                    <ion-icon
+                      (click)="verReaccion(reacciones.aguaBebida)"
+                      [color] = colorReaccionaguaBebida
+                      size="large"
+                      [name]= '((reacciones.aguaBebida !="happy-outline") && (reacciones.aguaBebida !="sad-outline")) ? "chatbubble-ellipses-outline" : reacciones.aguaBebida'
+                    ></ion-icon>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </div>
         </div>
       </ion-card>    
@@ -276,10 +295,10 @@
             alt=""
             >
           </div>
-  
         </ion-card-content>
       </ion-card>
     </div>
+
     <ion-button (click)="verProgreso()" expand="block" shape="round" color="success">
       <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
       Ver progresos
@@ -344,7 +363,6 @@
             </ion-grid>
           </div>
 
-        
         </div>
       </ion-card>
 
@@ -425,6 +443,7 @@
     </ion-button>
 
   </swiper-slide>
+
 </swiper-container>
 
     

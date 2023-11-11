@@ -1,0 +1,246 @@
+<ion-header >
+  <ion-toolbar color="success">
+    <ion-buttons (click)="volver()" slot="start">
+      <ion-icon size="large" slot="icon-only" name="arrow-back-circle-outline"></ion-icon>
+  </ion-buttons>
+    <ion-title class="ion-text-center"><b>{{ nombre }}</b></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <div class="tituloInicio">
+      <ion-item
+        class="ion-text-center"
+        color="warning"
+      >
+        <ion-label>
+          <h1><b>Resumen de su semana</b></h1>
+          <p><b>
+              {{arrayFechas[0].fechaInicio | date:'dd/MM/yyyy'}} - {{arrayFechas[0].fechaFin | date:'dd/MM/yyyy'}}
+            </b>
+          </p>
+        </ion-label>
+      </ion-item>
+    </div>
+    <div *ngIf="registroAlimentosEnSemana.length > 0">
+      <ion-card>
+        <div class="caloriasIngeridas">
+          <ion-item
+            color="light"
+            class="caloriasSub"
+          >
+            <ion-label class="subs">
+              <ion-icon
+                size="large"
+                name="restaurant-outline"
+              ></ion-icon>
+      
+              <b>
+                &nbsp;Promedio calorías ingeridas
+              </b>
+            </ion-label>
+          </ion-item>
+
+          <div class="ion-padding-start ion-padding-end">
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="10">
+                  <h1 class="numCalIngeridas">
+                    <b>{{ detalleAlimentos.caloriasTotales }} kcal</b>
+                  </h1>
+                </ion-col>
+                <ion-col size="2"  class="center-icon">      
+
+                <ion-fab *ngIf="reacciones.caloriasIngeridas.length == 0 ">
+                  <ion-fab-button>
+                    <ion-icon name="chevron-back-circle"></ion-icon>
+                  </ion-fab-button>
+                  <ion-fab-list side="start">
+                    <ion-fab-button  color="success" (click) = "reaccionar('happy-outline', 'caloriasIngeridas')">
+                      <ion-icon size="large" name="happy-outline"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button color="danger" (click) = "reaccionar('sad-outline', 'caloriasIngeridas')">
+                      <ion-icon size="large"  name="sad-outline"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button color="dark" (click) = "reaccionar('chatbubble-ellipses-outline', 'caloriasIngeridas')">
+                      <ion-icon size="large"  name="chatbubble-ellipses-outline"></ion-icon>
+                    </ion-fab-button>
+                  </ion-fab-list>
+                </ion-fab>
+
+                <div *ngIf="reacciones.caloriasIngeridas.length > 0 ">
+                  <ion-icon
+                    (click)="verReaccion(reacciones.caloriasIngeridas, 'caloriasIngeridas')"
+                    [color]= colorReaccioncaloriasIngeridas
+                    size="large"
+                    [name]= '((reacciones.caloriasIngeridas !== "happy-outline") && (reacciones.caloriasIngeridas !== "sad-outline")) ? "chatbubble-ellipses-outline" : reacciones.caloriasIngeridas'
+                  ></ion-icon>
+                </div>
+
+              </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+          
+
+          <ion-card-content>
+            <div class="ion-padding-bottom">
+              <div *ngFor="let item of data" class="bar">
+                <div class="bar-label">{{ item.category }}</div>
+                <div class="bar-outer">
+                  <div class="bar-inner" [style.width.%]="item.percentage">
+                    <b style="color:black">{{ item.percentage }}%</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </ion-card-content>
+        </div>
+      </ion-card>
+      <ion-card color="warning">
+        
+        <div class="caloriasQuemadas">
+          <ion-item
+            color="warning"
+            class="caloriasSub"
+          >
+            <ion-label class="subs">
+              <ion-icon
+                size="large"
+                name="flame-outline"
+              ></ion-icon>
+      
+              <b>Promedio calorías quemadas</b>
+            </ion-label>
+          </ion-item>
+
+          <div class="ion-padding-start ion-padding-end">
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="10">
+                  <h1 class="ion-padding-bottom ion-text-center">
+                    <b>{{ detalleAlimentos.caloriasQuemadas }} kcal</b>
+                  </h1>
+                </ion-col>
+                <ion-col size="2" class="center-icon">
+
+                  <ion-fab *ngIf="reacciones.caloriasQuemadas.length == 0 ">
+                    <ion-fab-button>
+                      <ion-icon name="chevron-back-circle"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-list side="start">
+                      <ion-fab-button color="success" (click) = "reaccionar('happy-outline', 'caloriasQuemadas')">
+                        <ion-icon size="large"  name="happy-outline"></ion-icon>
+                      </ion-fab-button>
+                      <ion-fab-button color="danger" (click) = "reaccionar('sad-outline', 'caloriasQuemadas')">
+                        <ion-icon size="large"  name="sad-outline"></ion-icon>
+                      </ion-fab-button>
+                      <ion-fab-button color="dark" (click) = "reaccionar('chatbubble-ellipses-outline', 'caloriasQuemadas')">
+                        <ion-icon size="large"  name="chatbubble-ellipses-outline"></ion-icon>
+                      </ion-fab-button>
+                    </ion-fab-list>
+                  </ion-fab>
+
+                  <div *ngIf="reacciones.caloriasQuemadas.length > 0 ">
+                    <ion-icon
+                      (click)="verReaccion(reacciones.caloriasQuemadas, 'caloriasQuemadas')"
+                      [color]= colorReaccioncaloriasQuemadas
+                      size="large"
+                      [name]= '((reacciones.caloriasQuemadas !== "happy-outline") && (reacciones.caloriasQuemadas !== "sad-outline")) ? "chatbubble-ellipses-outline" : reacciones.caloriasQuemadas'
+                    ></ion-icon>
+                  </div>
+
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+      
+
+        </div>
+      </ion-card>
+      
+      <ion-card  color="tertiary">
+        <div class="aguaBebida">
+          <ion-item
+            color="tertiary"
+            class="caloriasSub"
+          >
+            <ion-label class="subs">
+              <ion-icon
+                size="large"
+                name="water-outline"
+              ></ion-icon>
+      
+              <b>Promedio agua bebida</b>
+            </ion-label>
+          </ion-item>
+
+          <div class="ion-padding-start ion-padding-end">
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="10">
+                  <h1 class="ion-padding-bottom ion-text-center">
+                    <b>{{ detalleAlimentos.agua }} L</b>
+                  </h1>
+                </ion-col>
+                <ion-col size="2">
+  
+                  <ion-fab *ngIf="reacciones.aguaBebida.length == 0 ">
+                    <ion-fab-button>
+                      <ion-icon name="chevron-back-circle"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-list side="start">
+                      <ion-fab-button color="success" (click) = "reaccionar('happy-outline', 'aguaBebida')">
+                        <ion-icon size="large"  name="happy-outline"></ion-icon>
+                      </ion-fab-button>
+                      <ion-fab-button color="danger" (click) = "reaccionar('sad-outline', 'aguaBebida')">
+                        <ion-icon size="large"  name="sad-outline"></ion-icon>
+                      </ion-fab-button>
+                      <ion-fab-button color="dark" (click) = "reaccionar('chatbubble-ellipses-outline', 'aguaBebida')">
+                        <ion-icon size="large"  name="chatbubble-ellipses-outline"></ion-icon>
+                      </ion-fab-button>
+                    </ion-fab-list>
+                  </ion-fab>
+  
+                  <div *ngIf="reacciones.aguaBebida.length > 0 ">
+                    <ion-icon
+                      (click)="verReaccion(reacciones.aguaBebida, 'aguaBebida')"
+                      [color]= colorReaccionaguaBebida
+                      size="large"
+                      [name]= '((reacciones.aguaBebida !== "happy-outline") && (reacciones.aguaBebida !== "sad-outline")) ? "chatbubble-ellipses-outline" : reacciones.aguaBebida'
+                    ></ion-icon>
+                  </div>
+  
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+          
+    
+
+        </div>
+      </ion-card>    
+    </div>
+
+    <div *ngIf="registroAlimentosEnSemana.length <= 0">
+      <ion-card color="light">
+        <ion-card-header>
+          <ion-card-title class="ion-text-center"> <b>No hay registros de su última semana</b></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <!-- <p class="ion-text-center" >No hay registros de tu última semana</p> -->
+          <div class="contenedor">
+            <img class="plato"
+            id="logo1"
+            src="../../../assets/imagenes/check-list.jpg"
+            alt=""
+            >
+          </div>
+  
+        </ion-card-content>
+      </ion-card>
+    </div>
+   
+</ion-content>

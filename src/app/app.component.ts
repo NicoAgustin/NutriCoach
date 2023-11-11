@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { register } from 'swiper/element/bundle';
+import { Platform } from '@ionic/angular';
+import { SplashScreen } from '@capacitor/splash-screen';
+
+
 
 register();
 
@@ -9,5 +13,17 @@ register();
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(
+    private platform: Platform
+  ) {
+
+    this.initializeApp();
+  }
+
+  initializeApp() {
+    this.platform.ready().then(async () => {
+      await SplashScreen.hide();
+      //this.oneSignalPushService.configuracion();
+    });
+  }
 }
