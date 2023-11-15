@@ -35,6 +35,11 @@ export class PerfilNutriPage implements OnInit {
   }
 
   ionViewWillEnter(){
+    this.perfil.email = this.utilSvc.getElementInLocalStorage('correo')
+    this.perfil.fotoPerfil = "https://ionicframework.com/docs/img/demos/avatar.svg"
+    this.perfil.matricula = ""
+    this.perfil.nombre = ""
+    this.perfil.telefono = ""
     this.loading = true
     this.getDatos()
   }

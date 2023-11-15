@@ -39,12 +39,14 @@ export class PerfilPage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.userProfile.email = this.utilSvc.getElementInLocalStorage('correo');
     this.loading = true
     this.correo = this.utilSvc.getElementInLocalStorage('correo');
     this.obtenerDatosPerfil()
   }
 
   async ionViewWillEnter() {
+    this.userProfile.email = this.utilSvc.getElementInLocalStorage('correo');
     if (this.correo !== this.utilSvc.getElementInLocalStorage('correo')) {
       this.loading = true;
       this.obtenerDatosPerfil()
@@ -311,6 +313,7 @@ export class PerfilPage implements OnInit {
         this.userProfile.numAfiliado = ""
         this.userProfile.telefono = ""
         this.userProfile.consideraciones = ""
+        this.userProfile.fotoPerfil = "'https://ionicframework.com/docs/img/demos/avatar.svg'"
         this.isProfileLoaded = false
       }
     })
