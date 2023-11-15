@@ -15,10 +15,10 @@ export class MedicionesHistoricoNutriPage implements OnInit {
 
   nombre: string = this.utilSvc.getElementInLocalStorage('paciente-nombre')
   correo: string = this.utilSvc.getElementInLocalStorage('paciente-correo')
-  registroFecha: string = new Date().toISOString().substring(0, 10)
+  registroFecha: string = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10)
   hayRegistro: boolean = false
   highlightedDates: any[] = []
-  max: string = new Date().toISOString().substring(0, 10)
+  max: string = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10)
   medicion: MedicionNutri = {
     peso: 0,
     talla: 0,
@@ -49,24 +49,24 @@ export class MedicionesHistoricoNutriPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
-    this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
-    this.utilSvc.presentLoading()
-    this.registroMediciones = []
-    this.highlightedDates = []
-    this.getMediciones()
+    // this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
+    // this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
+    // this.utilSvc.presentLoading()
+    // this.registroMediciones = []
+    // this.highlightedDates = []
+    // this.getMediciones()
   }
 
   ionViewWillEnter() {
-    if (this.correo !== this.utilSvc.getElementInLocalStorage('paciente-correo')) {
+    // if (this.correo !== this.utilSvc.getElementInLocalStorage('paciente-correo')) {
       this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
       this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
       this.utilSvc.presentLoading()
-      this.registroFecha = new Date().toISOString().substring(0, 10)
+      this.registroFecha = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10)
       this.registroMediciones = []
       this.highlightedDates = []
       this.getMediciones()
-    }
+    // }
   }
 
   // async getMediciones() {

@@ -47,17 +47,12 @@ export class InicialPage implements OnInit {
   imc : any
 
   pacienteNutricionista: PacienteXNutricionista;
-  paciente: Paciente = {
-    email: "",
-    nombre: "",
-    dni: "",
-    obraSocial: "",
-    numAfiliado: "",
-    telefono: "",
-    consideraciones: "",
-    fotoPerfil: ""
+  recomendaciones: PlatosXPaciente = {
+    almuerzo: "",
+    cena: "",
+    recetas: "",
+    recomendaciones: ""
   }
-  recomendaciones: PlatosXPaciente
   correo: string = ""
   loading: boolean = false
   hayRecomendaciones: boolean = false
@@ -66,7 +61,7 @@ export class InicialPage implements OnInit {
   primeraSemanaInicio: string = ""
   primeraSemanaFin: string = ""
   arrayFechas: intervaloFechas[] = []
-  nombrePaciente: string = "Aún no completaste tu perfil"
+  nombrePaciente: string = "Completar Perfil"
   nombreNutricionista: string = ""
   registroAlimentos: RegistroAlimento[] = []
   registroAlimentosEnSemana: RegistroAlimento[] = []
@@ -104,7 +99,7 @@ export class InicialPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.mensajeBienvenida()
+    // this.mensajeBienvenida()
   }
 
 
@@ -337,18 +332,28 @@ export class InicialPage implements OnInit {
   }
 
   async obtenerNutricionista() {
-    this.pacienteNutricionista = this.utilSvc.getElementInLocalStorage('pacienteNutricionista')
-    if (this.pacienteNutricionista.perfilCompleto) {
-      (await this.firebaseSvc.getDocument('Pacientes', this.utilSvc.getElementInLocalStorage('correo'))).toPromise().then(async (resp) => {
-        this.paciente = resp.data() as Paciente
-        this.nombrePaciente = this.paciente.nombre
-        this.pacienteNutricionista.nombre == "" ? this.nombreNutricionista = "Aún no asignado" : this.nombreNutricionista = this.pacienteNutricionista.nombre
-        this.utilSvc.setElementInLocalStorage('nombrePaciente', this.nombrePaciente)
+    // this.pacienteNutricionista = this.utilSvc.getElementInLocalStorage('pacienteNutricionista');
+    // if (this.pacienteNutricionista.perfilCompleto) {
+      (await this.firebaseSvc.getDocument('PacientesXNutricionista', this.utilSvc.getElementInLocalStorage('correo'))).toPromise().then(async (resp) => {
+        if (typeof resp.data() !== 'undefined'){
+          this.pacienteNutricionista = resp.data() as PacienteXNutricionista
+          this.pacienteNutricionista.paciente == "" ? this.nombrePaciente = "Completar Perfil" : this.nombrePaciente = this.pacienteNutricionista.paciente  
+          this.pacienteNutricionista.nombre == "" ? this.nombreNutricionista = "Aún no asignado" : this.nombreNutricionista = this.pacienteNutricionista.nombre
+          this.utilSvc.setElementInLocalStorage('nombrePaciente', this.nombrePaciente)
+        } else {
+          this.nombrePaciente = "Completar Perfil"
+          this.nombreNutricionista = "Aún no asignado"
+        }
+      }).then(() => {
+        this.mensajeBienvenida()
       })
-    }
+    // }
   }
 
   mensajeBienvenida() {
+    console.log("Perfil completo: " + this.pacienteNutricionista.perfilCompleto)
+    console.log("Nutricionista: " + this.pacienteNutricionista.nutricionista)
+    console.log("Mensaje de bienvenida: " + this.utilSvc.getElementInLocalStorage('msjBienvenida'))
     if ((!this.pacienteNutricionista.perfilCompleto || this.pacienteNutricionista.nutricionista == "") && !this.utilSvc.getElementInLocalStorage('msjBienvenida')) {
       let msj1: string = ""
       let msj2: string = ""

@@ -105,7 +105,7 @@ export class InicialNutriPage implements OnInit {
 
 
   agregarPaciente() {
-    if(this.nombre == "" || this.telefono == ""){
+    if (this.nombre == "" || this.telefono == "") {
       this.mensajeError("Debe completar su perfil para poder agregar pacientes")
     } else {
       Swal.fire({
@@ -168,10 +168,11 @@ export class InicialNutriPage implements OnInit {
   }
 
   async agregarPacientesXNutri() {
-      let referente: PacienteXNutricionista = {
+    let referente: PacienteXNutricionista = {
       nombre: this.nombre,
       nutricionista: this.utilSvc.getElementInLocalStorage('correo'),
-      perfilCompleto: false
+      perfilCompleto: false,
+      paciente: ""
     }
     let uid = this.correoNuevo.toLowerCase();
     (await this.firebaseSvc.getDocument('PacientesXNutricionista', uid)).toPromise().then(async (doc) => {
@@ -194,25 +195,28 @@ export class InicialNutriPage implements OnInit {
         await this.firebaseSvc.setDocument('PacientesXNutricionista', uid, referente)
       } else {
         referente.perfilCompleto = respuesta.perfilCompleto
+        referente.paciente = respuesta.paciente
         await this.firebaseSvc.updateDocument('PacientesXNutricionista', uid, referente)
       }
-      
+
     })
   }
 
-  async eliminarPacienteXNutri(uid : string) {
+  async eliminarPacienteXNutri(uid: string) {
     let referente: PacienteXNutricionista = {
       nombre: "",
       nutricionista: "",
-      perfilCompleto: false
+      perfilCompleto: false,
+      paciente: ""
     };
 
     (await this.firebaseSvc.getDocument('PacientesXNutricionista', uid)).toPromise().then(async (doc) => {
       let respuesta: PacienteXNutricionista = doc.data() as PacienteXNutricionista
       if (typeof respuesta !== 'undefined') {
         referente.perfilCompleto = respuesta.perfilCompleto
+        referente.paciente = respuesta.paciente
         await this.firebaseSvc.updateDocument('PacientesXNutricionista', uid, referente)
-      } 
+      }
     })
   }
 
@@ -292,7 +296,7 @@ export class InicialNutriPage implements OnInit {
           await this.firebaseSvc.getDocInSubcollection('Nutricionistas', this.utilSvc.getElementInLocalStorage('correo'), 'Pacientes', 'correo', paciente.correo).then((querySnapshot) => {
             querySnapshot.forEach(async (doc) => {
               id = doc.id
-              let pac : PacienteNutri = doc.data() as PacienteNutri
+              let pac: PacienteNutri = doc.data() as PacienteNutri
               await this.eliminarPacienteXNutri(pac.correo)
             }
             )
@@ -360,10 +364,28 @@ export class InicialNutriPage implements OnInit {
               await this.firebaseSvc.getDocInSubcollection('Nutricionistas', this.utilSvc.getElementInLocalStorage('correo'), 'Pacientes', 'correo', paciente.correo).then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                   id = doc.id
-                }
-                )
+                })
               });
-              await this.firebaseSvc.updateSubcollection('Nutricionistas', this.utilSvc.getElementInLocalStorage('correo'), 'Pacientes', id, registro)
+              await this.firebaseSvc.updateSubcollection('Nutricionistas', this.utilSvc.getElementInLocalStorage('correo'), 'Pacientes', id, registro);
+              let referente: PacienteXNutricionista = {
+                nombre: "",
+                nutricionista: "",
+                perfilCompleto: false,
+                paciente: ""
+              };
+              (await this.firebaseSvc.getDocument('PacientesXNutricionista', correo.toLowerCase())).toPromise().then(async (doc) => {
+                let respuesta: PacienteXNutricionista = doc.data() as PacienteXNutricionista
+                if (typeof respuesta !== 'undefined') {
+                  referente = respuesta
+                  referente.nutricionista = this.utilSvc.getElementInLocalStorage('correo')
+                  referente.nombre = this.nombre
+                  await this.firebaseSvc.updateDocument('PacientesXNutricionista', correo.toLowerCase(), referente)
+                } else {
+                  referente.nutricionista = this.utilSvc.getElementInLocalStorage('correo')
+                  referente.nombre = this.nombre;
+                  await this.firebaseSvc.setDocument('PacientesXNutricionista', correo.toLocaleLowerCase(), referente)
+                }
+              })
             } catch (error) {
               this.mensajeError('Error al editar paciente')
             }
@@ -379,8 +401,8 @@ export class InicialNutriPage implements OnInit {
     })
   }
 
-  verPaciente(paciente:PacienteNutri){
-    if(paciente.correo !== ''){
+  verPaciente(paciente: PacienteNutri) {
+    if (paciente.correo !== '') {
       this.utilSvc.setElementInLocalStorage('paciente-correo', paciente.correo)
       this.utilSvc.setElementInLocalStorage('paciente-nombre', paciente.nombre)
       this.router.navigate(['/tabs/opciones-paciente-nutri'])

@@ -56,17 +56,17 @@ export class MedicionesNutriPage implements OnInit {
   ) { }
 
   ngOnInit() {
-      this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
-      this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
-      console.log("Se ejecuta onInit")
-      this.utilSvc.presentLoading()
-      this.registroMediciones = []
-      this.inicializar()
-      this.getMediciones()
+    // this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
+    // this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
+    // console.log("Se ejecuta onInit")
+    // this.utilSvc.presentLoading()
+    // this.registroMediciones = []
+    // this.inicializar()
+    // this.getMediciones()
   }
 
-  ionViewWillEnter(){
-    if (this.correo !== this.utilSvc.getElementInLocalStorage('paciente-correo')) {
+  ionViewWillEnter() {
+    // if (this.correo !== this.utilSvc.getElementInLocalStorage('paciente-correo')) {
       console.log("Se ejecuta ionView")
       this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
       this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
@@ -74,10 +74,10 @@ export class MedicionesNutriPage implements OnInit {
       this.inicializar()
       this.registroMediciones = []
       this.getMediciones()
-    }
+   // }
   }
 
-  inicializar(){
+  inicializar() {
     this.sumaPliegues = 0
     this.scoreAdiposa = 0
     this.masaAdiposa = 0
@@ -100,14 +100,14 @@ export class MedicionesNutriPage implements OnInit {
         this.registroMediciones.push(r)
       })
     })
-    if(this.registroMediciones.length > 0){
+    if (this.registroMediciones.length > 0) {
       this.registroMediciones.sort((a, b) => {
         const fechaA = new Date(a.fecha);
         const fechaB = new Date(b.fecha);
         return fechaA.getTime() - fechaB.getTime();
       });
       this.registroMediciones.reverse()
-      this.imc = (this.registroMediciones[0].medicion.peso / (this.registroMediciones[0].medicion.talla/100)**2).toFixed(2)  //ultimoRegistro.medicion.peso / (ultimoRegistro.medicion.talla/100)**2
+      this.imc = (this.registroMediciones[0].medicion.peso / (this.registroMediciones[0].medicion.talla / 100) ** 2).toFixed(2)  //ultimoRegistro.medicion.peso / (ultimoRegistro.medicion.talla/100)**2
       this.calcularIndicadores()
     }
 
@@ -118,58 +118,64 @@ export class MedicionesNutriPage implements OnInit {
     }, 1000);
   }
 
-  calcularIndicadores(){
-    if(this.registroMediciones.length > 0){
-      let registro : MedicionNutri = this.registroMediciones[0].medicion
+  calcularIndicadores() {
+    if (this.registroMediciones.length > 0) {
+      let registro: MedicionNutri = this.registroMediciones[0].medicion
       this.sumaPliegues = Number((registro.pliAbdominal + registro.pliMuslo + registro.pliPantorrilla + registro.pliSubescapular + registro.pliSupraespinal + registro.pliTriceps).toFixed(2))
       this.scoreAdiposa = Number((((this.sumaPliegues * (170.18 / registro.talla)) - 116.41) / 34.79).toFixed(2))
-      this.masaAdiposa = Number((((this.scoreAdiposa * 5.85) + 25.6) / ((170.18 / registro.talla)**3)).toFixed(2))
-      this.perBrazoCor = registro.perBrazoRelajado - ((registro.pliTriceps * 3.141) /10)
+      this.masaAdiposa = Number((((this.scoreAdiposa * 5.85) + 25.6) / ((170.18 / registro.talla) ** 3)).toFixed(2))
+      this.perBrazoCor = registro.perBrazoRelajado - ((registro.pliTriceps * 3.141) / 10)
       this.perAntebrazoCor = registro.perAntebrazo
-      this.perMusloCor = registro.perCadera - ((registro.perMuslo * 3.141) / 10)
+      this.perMusloCor = registro.perMuslo - ((registro.pliMuslo * 3.141) / 10)
       this.perPantoCor = registro.perPantorrilla - ((registro.pliPantorrilla * 3.141) / 10)
       this.perToraxCor = registro.perTorax - ((registro.pliSubescapular * 3.141) / 10)
       this.sumaPerCor = Number((this.perAntebrazoCor + this.perBrazoCor + this.perMusloCor + this.perPantoCor + this.perToraxCor).toFixed(2))
       this.scoreMuscular = Number((((this.sumaPerCor * (170.18 / registro.talla)) - 207.21) / 13.74).toFixed(2))
-      this.masaMuscular = Number((((this.scoreMuscular * 5.4) + 24.5) / ((170.18 / registro.talla)**3)).toFixed(2))
-    console.log("Fecha: " + this.registroMediciones[0].fecha)
-    console.log("Suma pliegues: " + this.sumaPliegues)
-    console.log("Score Adiposa: " + this.scoreAdiposa)
-    console.log("Masa adiposa: " + this.masaAdiposa)
-    console.log("Masa adiposa: " + this.masaAdiposa)
-    console.log("Masa muscular: " + this.masaMuscular)
-  }
-}
-
-calcularPosicionFlecha() {
-  let seccion = 0;
-
-  if (this.imc < 18.5) {
-    seccion = 1;
-  } else if (this.imc < 25) {
-    seccion = 2;
-  } else {
-    seccion = 3;
+      this.masaMuscular = Number((((this.scoreMuscular * 5.4) + 24.5) / ((170.18 / registro.talla) ** 3)).toFixed(2))
+      console.log("Per. Brazo Corregido: " + this.perBrazoCor);
+      console.log("Per. perAntebrazoCor: " + this.perAntebrazoCor);
+      console.log("Per. perMusloCor: " + this.perMusloCor);
+      console.log("Per. perPantoCor: " + this.perPantoCor);
+      console.log("Per. perToraxCor: " + this.perToraxCor);
+      console.log("Per. sumaPerCor: " + this.sumaPerCor);
+      console.log("Fecha: " + this.registroMediciones[0].fecha)
+      console.log("Suma pliegues: " + this.sumaPliegues)
+      console.log("Score Adiposa: " + this.scoreAdiposa)
+      console.log("Masa adiposa: " + this.masaAdiposa)
+      console.log("Masa adiposa: " + this.masaAdiposa)
+      console.log("Masa muscular: " + this.masaMuscular)
+    }
   }
 
-  let anchoSeccion = 100 / 3;
-  let centroSeccion = (seccion - 0.5) * anchoSeccion;
-  return `calc(${centroSeccion}% - 7.5px)`;
-}
+  calcularPosicionFlecha() {
+    let seccion = 0;
+
+    if (this.imc < 18.5) {
+      seccion = 1;
+    } else if (this.imc < 25) {
+      seccion = 2;
+    } else {
+      seccion = 3;
+    }
+
+    let anchoSeccion = 100 / 3;
+    let centroSeccion = (seccion - 0.5) * anchoSeccion;
+    return `calc(${centroSeccion}% - 7.5px)`;
+  }
 
   volver() {
     this.router.navigate(['/tabs/opciones-paciente-nutri'])
   }
 
-  verMediciones(){
+  verMediciones() {
     this.router.navigate(['/tabs/mediciones-paciente-nutri'])
   }
 
-  tomarMediciones(){
+  tomarMediciones() {
     this.router.navigate(['/tabs/mediciones-a-tomar-nutri'])
   }
 
-  verHistorico(){
+  verHistorico() {
     this.router.navigate(['/tabs/mediciones-historico-nutri'])
   }
 }

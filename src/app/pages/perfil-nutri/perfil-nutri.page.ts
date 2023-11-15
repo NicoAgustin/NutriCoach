@@ -249,7 +249,7 @@ modificarDato(propiedad: string) {
         if (result.isConfirmed) {
           let userUpdt: Usuario = {
             cuentaActiva: false,
-            fechaDePausa: new Date().toISOString().substring(0, 10),
+            fechaDePausa: new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10),
             nutricionista: this.utilSvc.getElementInLocalStorage('nutricionista')
           }
           await this.firebaseSvc.updateDocument('Usuarios', this.utilSvc.getElementInLocalStorage('correo'), userUpdt)

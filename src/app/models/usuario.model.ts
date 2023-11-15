@@ -18,7 +18,8 @@ export interface Paciente {
 export interface PacienteXNutricionista {
     nombre: string,
     nutricionista: string,
-    perfilCompleto: boolean
+    perfilCompleto: boolean,
+    paciente: string
 }
 
 export interface Nutricionista {

@@ -44,19 +44,24 @@ export class SugerenciasNutriPage implements OnInit {
     this.utilSvc.presentLoading()
     this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
     this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
+    await this.getPlatos();
     (await this.firebaseSvc.getDocument('Platos', '10aZU0d6c8snLBwlnSZ3')).toPromise().then((pla) => {
-        this.platos = pla.data() as Platos
-      });
+      this.platos = pla.data() as Platos
+    });
     this.getRecomendaciones()
   }
 
-  async ionViewWillLeave(){
+  async ionViewWillLeave() {
     this.recomendacion = {
       almuerzo: "",
       cena: "",
       recetas: "",
       recomendaciones: ""
     }
+  }
+
+  async getPlatos() {
+
   }
 
   async getRecomendaciones() {
@@ -165,21 +170,29 @@ export class SugerenciasNutriPage implements OnInit {
         break
     };
     (await this.firebaseSvc.getDocument('PlatosXPaciente', this.correo)).toPromise().then(async (res) => {
-      let registro : PlatosXPaciente = {
+      let registro: PlatosXPaciente = {
         almuerzo: "",
         cena: "",
         recetas: "",
         recomendaciones: ""
       }
-      if (typeof res.data() !== 'undefined'){
+      if (typeof res.data() !== 'undefined') {
         registro = res.data() as PlatosXPaciente
         tipo == 'A' ? registro.almuerzo = img : registro.cena = img
         await this.firebaseSvc.updateDocument('PlatosXPaciente', this.correo, registro)
-        this.getRecomendaciones()
+        this.recomendacion = registro;
+        setTimeout(async () => {
+          this.utilSvc.dismissLoading()
+        }, 1000);
+        //this.getRecomendaciones()
       } else {
         tipo == 'A' ? registro.almuerzo = img : registro.cena = img
         await this.firebaseSvc.setDocument('PlatosXPaciente', this.correo, registro)
-        this.getRecomendaciones()
+        this.recomendacion = registro;
+        setTimeout(async () => {
+          this.utilSvc.dismissLoading()
+        }, 1000);
+        // this.getRecomendaciones()
       }
     })
 
@@ -219,33 +232,39 @@ export class SugerenciasNutriPage implements OnInit {
           recomendaciones: recomendacion
         }
         await this.firebaseSvc.setDocument('PlatosXPaciente', this.correo, registro)
-        this.getRecomendaciones()
+        this.recomendacion = registro
+        setTimeout(async () => {
+          this.utilSvc.dismissLoading()
+        }, 1000);
       } else {
         let registro: PlatosXPaciente = res.data() as PlatosXPaciente
         registro.recomendaciones = recomendacion
         await this.firebaseSvc.updateDocument('PlatosXPaciente', this.correo, registro)
-        this.getRecomendaciones()
+        this.recomendacion = registro
+        setTimeout(async () => {
+          this.utilSvc.dismissLoading()
+        }, 1000);
       }
     })
   }
 
-  async agregarReceta(){
+  async agregarReceta() {
     console.log("Se apreto agregar receta")
-    const { value: file } =  await Swal.fire({
+    const { value: file } = await Swal.fire({
       title: '¿Desea subir un plan para el paciente?',
       text: 'Debe estar en formato pdf',
       input: 'file',
-  inputAttributes: {
-    'accept': '.pdf',
-    'aria-label': 'Upload your profile picture'
-  },
+      inputAttributes: {
+        'accept': '.pdf',
+        'aria-label': 'Upload your profile picture'
+      },
       heightAuto: false,
       showCancelButton: true,
       confirmButtonText: 'Aceptar',
       cancelButtonText: 'Cancelar',
       reverseButtons: true,
     })
-    if(file){
+    if (file) {
       this.subirArchivo(file)
       Swal.close()
       // const reader = new FileReader()
@@ -255,7 +274,7 @@ export class SugerenciasNutriPage implements OnInit {
     }
   }
 
-  subirArchivo(file: any){
+  subirArchivo(file: any) {
     console.log("Se va a subir el archivo")
     this.utilSvc.presentLoading()
     // this.firebaseSvc.uploadPDF(file, this.utilSvc.getElementInLocalStorage('correo')).toPromise().then((res) => {
@@ -277,7 +296,7 @@ export class SugerenciasNutriPage implements OnInit {
             this.utilSvc.dismissLoading()
             this.mostrarMensaje('Archivo subido correctamente', 'success')
           })
-          
+
         } else {
           let registro: PlatosXPaciente = resp.data() as PlatosXPaciente
           registro.recetas = resPDF
@@ -285,9 +304,9 @@ export class SugerenciasNutriPage implements OnInit {
             this.utilSvc.dismissLoading()
             this.mostrarMensaje('Archivo subido correctamente', 'success')
           })
-         
+
         }
-        
+
       })
     }).catch((err) => {
       this.utilSvc.dismissLoading()
