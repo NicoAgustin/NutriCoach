@@ -65,6 +65,10 @@ export class FirebaseService {
     return this.db.collection(path).doc(uid).collection(sub).snapshotChanges()
   }
 
+  async getSubcollection2(path: string, uid: string, sub: string){
+    return this.db.collection(path).doc(uid).collection(sub).get()
+  }
+
   async addSubcollection(path: string, uid: string, sub: string, registro: any){
     this.db.collection(path).doc(uid).collection(sub).add(registro)
   }
@@ -140,6 +144,10 @@ export class FirebaseService {
 
   async getRegistroFecha(uid: string, path1: string, path2: string, fecha: string){
     return this.db.collection(path1).doc(uid).collection(path2, ref => ref.where('fecha', '>=', fecha)).get().toPromise()
+  }
+
+  async getRegistroOrdenado(uid: string, path1: string, path2: string){
+    return this.db.collection(path1).doc(uid).collection(path2, ref => ref.orderBy('fecha', 'desc').limit(2)).get().toPromise()
   }
 
   async deleteRegistroNutri(uid: string, path1: string, path2:string, id: string){

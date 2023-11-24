@@ -27,7 +27,7 @@ export class PerfilNutriPage implements OnInit {
       telefono: ""
     }
     loading: boolean = false
-    foto: string
+    foto: string = ""
     private subscription: Subscription;
     pacientes: PacienteNutri[] = []
 
@@ -41,6 +41,7 @@ export class PerfilNutriPage implements OnInit {
     this.perfil.nombre = ""
     this.perfil.telefono = ""
     this.loading = true
+    this.foto = ""
     this.getDatos()
   }
 
@@ -75,7 +76,7 @@ editarFoto(){
 
 tomarImagenYRegistrar() {
   this.tomarFotografia().then(async () => {
-    if (this.foto != 'undefined') {
+    if (this.foto != 'undefined' && this.foto.length > 1) {
       this.utilSvc.presentLoading()
       let uid = this.utilSvc.getElementInLocalStorage('correo')
       let imagepath = `${uid}/Perfil/`

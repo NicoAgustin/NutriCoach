@@ -74,7 +74,7 @@
       </ion-item>
       <ion-item (click)="cargarPerimetro(8)"  [color]='medicion.perMuslo == 0 ? "secondary" : "success"' class="medicion" >
         <ion-label>
-          <h2>Muslo medial</h2>
+          <h2>Muslo máximo</h2>
           <h1 *ngIf="medicion.perMuslo!=0" class="ion-text-center"><b>{{medicion.perMuslo}} cm</b></h1>
         </ion-label>
       </ion-item>
@@ -116,7 +116,7 @@
       </ion-item>
       <ion-item (click)="cargarPliegue(5)" [color]='medicion.pliMuslo == 0 ? "secondary" : "success"' class="medicion" button >
         <ion-label>
-          <h2>Muslo medial</h2>
+          <h2>Muslo máximo</h2>
           <h1 *ngIf="medicion.pliMuslo!=0" class="ion-text-center"><b>{{medicion.pliMuslo}} mm</b></h1>
         </ion-label>
       </ion-item>

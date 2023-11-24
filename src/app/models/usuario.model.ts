@@ -35,3 +35,10 @@ export interface PacienteNutri {
     correo: string
 }
 
+export interface PacienteListado {
+    nombre: string,
+    correo: string,
+    imc: string,
+    tendencia: string
+}
+

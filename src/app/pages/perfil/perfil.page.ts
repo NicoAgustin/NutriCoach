@@ -17,7 +17,7 @@ export class PerfilPage implements OnInit {
   isProfileLoaded: boolean = false; //Booleano de datos cargados
   loading: boolean = false
   correo: string = ""
-  foto: string
+  foto: string = ""
 
   //Informacion del usuario
 
@@ -40,12 +40,14 @@ export class PerfilPage implements OnInit {
 
   async ngOnInit() {
     this.userProfile.email = this.utilSvc.getElementInLocalStorage('correo');
+    this.userProfile.fotoPerfil = 'https://ionicframework.com/docs/img/demos/avatar.svg';
     this.loading = true
     this.correo = this.utilSvc.getElementInLocalStorage('correo');
     this.obtenerDatosPerfil()
   }
 
   async ionViewWillEnter() {
+    this.foto = ""
     this.userProfile.email = this.utilSvc.getElementInLocalStorage('correo');
     if (this.correo !== this.utilSvc.getElementInLocalStorage('correo')) {
       this.loading = true;
@@ -406,7 +408,7 @@ export class PerfilPage implements OnInit {
 
   tomarImagenYRegistrar() {
     this.tomarFotografia().then(async () => {
-      if (this.foto != 'undefined') {
+      if (this.foto != 'undefined' && this.foto.length > 1) {
         this.utilSvc.presentLoading()
         let uid = this.utilSvc.getElementInLocalStorage('correo')
         let imagepath = `${uid}/Perfil/`
