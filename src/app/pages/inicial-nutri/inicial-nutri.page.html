@@ -31,9 +31,9 @@
         <ion-list [inset]="true">
           <ion-item button detail="true" *ngFor="let paciente of pacientesListado">
             <ion-icon (click)="editarOEliminarPaciente(paciente)" color="primary" size="large" name="create-outline" slot="start"></ion-icon>
-           <ion-icon name="ellipse" [color]='paciente.imc'></ion-icon>
+           <ion-icon (click)="verPaciente(paciente)" name="ellipse" [color]='paciente.imc'></ion-icon>
             <ion-label (click)="verPaciente(paciente)">&nbsp; {{ paciente.nombre }}</ion-label>
-            <ion-icon *ngIf='paciente.tendencia !==""' [name]=paciente.tendencia [color]='(paciente.tendencia == "happy-outline") ? "success" : "danger"'></ion-icon>
+            <ion-icon (click)="verPaciente(paciente)" *ngIf='paciente.tendencia !==""' [name]=paciente.tendencia [color]='(paciente.tendencia == "happy-outline") ? "success" : "danger"'></ion-icon>
           </ion-item>
         </ion-list>
       </div>
