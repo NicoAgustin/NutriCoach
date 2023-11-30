@@ -4,7 +4,7 @@ import { Highlight } from 'src/app/models/highlight.model';
 import { AlimentoCategoria, RegistroAlimento } from 'src/app/models/plan.model';
 import { FirebaseService } from '../../services/firebase.service';
 import { UtilsService } from '../../services/utils.service';
-import { PacienteXNutricionista } from 'src/app/models/usuario.model';
+import { Paciente, PacienteXNutricionista } from 'src/app/models/usuario.model';
 
 
 @Component({
@@ -17,16 +17,16 @@ export class PlanPage implements OnInit {
   aguaArray: number[] = []
   agua: number = 0
   alimentosIngeridos: AlimentoCategoria[] = [];
-  registroFecha: string = new Date().toISOString().substring(0, 10)
+  registroFecha: string = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10)
   caloriasTotales: number = 0
   unRegistroAlimentos: RegistroAlimento[] = []
   hayRegistro: boolean = false
   highlightedDates: any[] = []
-  max: string = new Date().toISOString().substring(0, 10)
+  max: string = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10)
   caloriasQuemadas: number = 0
   loading: boolean = true
   correo: string = ""
-  nombrePaciente : string = "Aún no completaste tu perfil"
+  nombrePaciente : string = ""
   nombreNutricionista : string = ""
   pacienteNutricionista: PacienteXNutricionista;
 
@@ -47,7 +47,7 @@ export class PlanPage implements OnInit {
   async ionViewWillEnter() {
     this.completarTitulo()
     if( this.correo !== this.utilSvc.getElementInLocalStorage('correo')){
-      this.registroFecha = new Date().toISOString().substring(0, 10)
+      this.registroFecha = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10)
       this.loading = true
       this.unRegistroAlimentos = []
       this.highlightedDates = []
@@ -58,11 +58,22 @@ export class PlanPage implements OnInit {
     // this.revisarRegistro(this.registroFecha)
   }
 
-  completarTitulo(){
-    this.nombrePaciente = this.utilSvc.getElementInLocalStorage('nombrePaciente')
-    this.nombreNutricionista
-    this.pacienteNutricionista = this.utilSvc.getElementInLocalStorage('pacienteNutricionista')
-    this.pacienteNutricionista.nombre == "" ? this.nombreNutricionista = "Aún no asignado" : this.nombreNutricionista = this.pacienteNutricionista.nombre
+  async completarTitulo(){
+    (await this.firebaseSvc.getDocument('PacientesXNutricionista', this.utilSvc.getElementInLocalStorage('correo'))).toPromise().then(async (resp) => {
+      if (typeof resp.data() !== 'undefined'){
+        this.pacienteNutricionista = resp.data() as PacienteXNutricionista
+        this.pacienteNutricionista.paciente == "" ? this.nombrePaciente = "Completar Perfil" : this.nombrePaciente = this.pacienteNutricionista.paciente  
+        this.pacienteNutricionista.nombre == "" ? this.nombreNutricionista = "Aún no asignado" : this.nombreNutricionista = this.pacienteNutricionista.nombre
+        this.utilSvc.setElementInLocalStorage('nombrePaciente', this.nombrePaciente)
+      } else {
+        this.nombrePaciente = "Completar Perfil"
+        this.nombreNutricionista = "Aún no asignado"
+      }
+    })
+    // this.nombrePaciente = this.utilSvc.getElementInLocalStorage('nombrePaciente')
+    // this.nombreNutricionista
+    // this.pacienteNutricionista = this.utilSvc.getElementInLocalStorage('pacienteNutricionista')
+    // this.pacienteNutricionista.nombre == "" ? this.nombreNutricionista = "Aún no asignado" : this.nombreNutricionista = this.pacienteNutricionista.nombre
   }
 
   async getRegistros() {

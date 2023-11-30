@@ -17,7 +17,7 @@ export class PerfilPage implements OnInit {
   isProfileLoaded: boolean = false; //Booleano de datos cargados
   loading: boolean = false
   correo: string = ""
-  foto: string
+  foto: string = ""
 
   //Informacion del usuario
 
@@ -39,12 +39,16 @@ export class PerfilPage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.userProfile.email = this.utilSvc.getElementInLocalStorage('correo');
+    this.userProfile.fotoPerfil = 'https://ionicframework.com/docs/img/demos/avatar.svg';
     this.loading = true
     this.correo = this.utilSvc.getElementInLocalStorage('correo');
     this.obtenerDatosPerfil()
   }
 
   async ionViewWillEnter() {
+    this.foto = ""
+    this.userProfile.email = this.utilSvc.getElementInLocalStorage('correo');
     if (this.correo !== this.utilSvc.getElementInLocalStorage('correo')) {
       this.loading = true;
       this.obtenerDatosPerfil()
@@ -118,7 +122,13 @@ export class PerfilPage implements OnInit {
       title: 'Correo enviado',
       text: 'Verifique su casilla para realizar el cambio de contraseña',
       confirmButtonText: 'Aceptar',
-      heightAuto: false
+      heightAuto: false,
+      allowOutsideClick: false,
+    }).then(async () => {
+      this.utilSvc.presentLoading()
+      await this.firebaseSvc.signOut()
+      this.utilSvc.clearLocalStorage()
+      this.utilSvc.dismissLoading()
     });
   }
 
@@ -186,7 +196,7 @@ export class PerfilPage implements OnInit {
         if (result.isConfirmed) {
           let userUpdt: Usuario = {
             cuentaActiva: false,
-            fechaDePausa: new Date().toISOString().substring(0, 10),
+            fechaDePausa: new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10),
             nutricionista: this.utilSvc.getElementInLocalStorage('nutricionista')
           }
           await this.firebaseSvc.updateDocument('Usuarios', this.utilSvc.getElementInLocalStorage('correo'), userUpdt)
@@ -305,6 +315,7 @@ export class PerfilPage implements OnInit {
         this.userProfile.numAfiliado = ""
         this.userProfile.telefono = ""
         this.userProfile.consideraciones = ""
+        this.userProfile.fotoPerfil = "'https://ionicframework.com/docs/img/demos/avatar.svg'"
         this.isProfileLoaded = false
       }
     })
@@ -314,6 +325,7 @@ export class PerfilPage implements OnInit {
     (await this.firebaseSvc.getDocument('PacientesXNutricionista', this.utilSvc.getElementInLocalStorage('correo'))).toPromise().then(async (resp) => {
       let paciente : PacienteXNutricionista = resp.data() as PacienteXNutricionista
       paciente.perfilCompleto = true
+      paciente.paciente = this.userProfile.nombre
       this.utilSvc.setElementInLocalStorage('pacienteNutricionista', paciente)
       await this.firebaseSvc.updateDocument('PacientesXNutricionista', this.utilSvc.getElementInLocalStorage('correo'), paciente)
     })
@@ -353,13 +365,16 @@ export class PerfilPage implements OnInit {
         reverseButtons: true,
         confirmButtonText: 'Guardar',
         cancelButtonText: 'Cancelar',
-        inputValidator: (value) => {
+        inputValidator: async (value) => {
           if (!value && propiedad !== 'consideraciones') {
             return 'Debes ingresar un valor';
           } else {
             // Actualizar el valor en userProfile
             this.userProfile[propiedad] = value;
-            this.firebaseSvc.updateDocument('Pacientes', this.utilSvc.getElementInLocalStorage('correo'), this.userProfile)
+            await this.firebaseSvc.updateDocument('Pacientes', this.utilSvc.getElementInLocalStorage('correo'), this.userProfile)
+            if(propiedad == 'nombre'){
+              await this.actualizarPaciente()
+            }
             // Lógica adicional de guardado si es necesario
           }
           return null;
@@ -393,7 +408,7 @@ export class PerfilPage implements OnInit {
 
   tomarImagenYRegistrar() {
     this.tomarFotografia().then(async () => {
-      if (this.foto != 'undefined') {
+      if (this.foto != 'undefined' && this.foto.length > 1) {
         this.utilSvc.presentLoading()
         let uid = this.utilSvc.getElementInLocalStorage('correo')
         let imagepath = `${uid}/Perfil/`

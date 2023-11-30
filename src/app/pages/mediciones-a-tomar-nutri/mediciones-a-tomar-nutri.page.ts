@@ -107,8 +107,38 @@ export class MedicionesATomarNutriPage implements OnInit {
   }
 
   async cargarPerimetro(tipo: number) {
+    let titulo = "Perímetro en cm"
+    switch (tipo) {
+      case 1:
+        titulo = "Perímetro cabeza en cm"
+        break;
+      case 2:
+        titulo = "Perímetro brazo relajado en cm"
+        break;
+      case 3:
+        titulo = "Perímetro brazo flexionado en cm"
+        break;
+      case 4:
+        titulo = "Perímetro antebrazo en cm"
+        break;
+      case 5:
+        titulo = "Perímetro tórax en cm"
+        break;
+      case 6:
+        titulo = "Perímetro cintura en cm"
+        break;
+      case 7:
+        titulo = "Perímetro cadera en cm"
+        break;
+      case 8:
+        titulo = "Perímetro muslo en cm"
+        break;
+      case 9:
+        titulo = "Perímetro pantorrilla en cm"
+        break;
+    }
     await Swal.fire({
-      title: 'Perímetro en cm',
+      title: titulo,
       input: 'number',
       //inputLabel: 'Ingresar peso',
       inputPlaceholder: 'Ingresar valor',
@@ -160,8 +190,29 @@ export class MedicionesATomarNutriPage implements OnInit {
   }
 
   async cargarPliegue(tipo: number) {
+    let titulo = "Pliegue en mm"
+    switch (tipo) {
+      case 1:
+        titulo = "Pliegue tríceps en mm"
+        break;
+      case 2:
+        titulo = "Pliegue subescapular en mm"
+        break;
+      case 3:
+        titulo = "Pliegue supraespinal en mm"
+        break;
+      case 4:
+        titulo = "Pliegue abdominal en mm"
+        break;
+      case 5:
+        titulo = "Pliegue muslo en mm"
+        break;
+      case 6:
+        titulo = "Pliegue pantorrilla en mm"
+        break;
+    }
     await Swal.fire({
-      title: 'Pliegue en mm',
+      title: titulo,
       input: 'number',
       //inputLabel: 'Ingresar peso',
       inputPlaceholder: 'Ingresar valor',
@@ -213,7 +264,7 @@ export class MedicionesATomarNutriPage implements OnInit {
   async enviarRegistro() {
     this.utilSvc.presentLoading()
     let registro: RegistroMedicionNutri = {
-      fecha: new Date().toISOString().substring(0, 10),
+      fecha: new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10),
       medicion: this.medicion
     };
     await this.revisarRegistros(registro.fecha)
@@ -233,17 +284,17 @@ export class MedicionesATomarNutriPage implements OnInit {
     })
   }
 
-  async revisarRegistros(fecha: string){
-     await this.firebaseSvc.getRegistroFecha(this.correo, 'Mediciones', 'registrosNutri', fecha).then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      let r: RegistroMedicionNutri
-      r =  doc.data() as RegistroMedicionNutri
-      if(r.fecha == fecha){
-        console.log("Se va a eliminar: " + doc.id)
-         this.firebaseSvc.deleteRegistroNutri(this.correo, 'Mediciones', 'registrosNutri', doc.id)
-      }
+  async revisarRegistros(fecha: string) {
+    await this.firebaseSvc.getRegistroFecha(this.correo, 'Mediciones', 'registrosNutri', fecha).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        let r: RegistroMedicionNutri
+        r = doc.data() as RegistroMedicionNutri
+        if (r.fecha == fecha) {
+          console.log("Se va a eliminar: " + doc.id)
+          this.firebaseSvc.deleteRegistroNutri(this.correo, 'Mediciones', 'registrosNutri', doc.id)
+        }
+      })
     })
-   })
   }
 
   informar() {

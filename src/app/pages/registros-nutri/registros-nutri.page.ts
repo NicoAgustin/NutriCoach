@@ -18,12 +18,12 @@ export class RegistrosNutriPage implements OnInit {
   aguaArray: number[] = []
   agua: number = 0
   alimentosIngeridos: AlimentoCategoria[] = [];
-  registroFecha: string = new Date().toISOString().substring(0, 10)
+  registroFecha: string = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10)
   caloriasTotales: number = 0
   unRegistroAlimentos: RegistroAlimento[] = []
   hayRegistro: boolean = false
   highlightedDates: any[] = []
-  max: string = new Date().toISOString().substring(0, 10)
+  max: string = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10)
   caloriasQuemadas: number = 0
   loading: boolean = true
 
@@ -34,23 +34,24 @@ export class RegistrosNutriPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
-    this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
-    this.unRegistroAlimentos = []
-    this.highlightedDates = []
-    this.getRegistros()
+    // this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
+    // this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
+    // this.unRegistroAlimentos = []
+    // this.highlightedDates = []
+    // this.getRegistros()
   }
 
   ionViewWillEnter(){
-    if( this.correo !== this.utilSvc.getElementInLocalStorage('paciente-correo')){
+    // if( this.correo !== this.utilSvc.getElementInLocalStorage('paciente-correo')){
       this.nombre = this.utilSvc.getElementInLocalStorage('paciente-nombre');
       this.correo = this.utilSvc.getElementInLocalStorage('paciente-correo');
-      this.registroFecha = new Date().toISOString().substring(0, 10)
+      this.utilSvc.presentLoading()
+      this.registroFecha = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10)
       this.loading = true
       this.unRegistroAlimentos = []
       this.highlightedDates = []
       this.getRegistros()
-    }
+    // }
   }
 
   async getRegistros() {
@@ -61,6 +62,7 @@ export class RegistrosNutriPage implements OnInit {
     })
     serv.unsubscribe
     setTimeout(() => {
+      this.utilSvc.dismissLoading()
       this.loading = false
     }, 1500);
   }

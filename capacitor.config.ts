@@ -18,6 +18,9 @@ const config: CapacitorConfig = {
       splashFullScreen: true,
       splashImmersive: true
     },
+    "@capacitor/screen-orientation": {
+      "preferredScreenOrientation": "portrait"
+    }
   },
 };
 

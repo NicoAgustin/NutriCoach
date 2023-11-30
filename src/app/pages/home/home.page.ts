@@ -445,7 +445,8 @@ export class HomePage implements OnInit {
       let referente : PacienteXNutricionista = {
         nombre: "",
         nutricionista: "",
-        perfilCompleto: false
+        perfilCompleto: false,
+        paciente: ""
       }
       let uid = this.utilSvc.getElementInLocalStorage('correo');
       (await this.firebaseSvc.getDocument('PacientesXNutricionista', uid)).toPromise().then(async (doc) => {

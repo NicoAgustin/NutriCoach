@@ -27,7 +27,7 @@ export class PerfilNutriPage implements OnInit {
       telefono: ""
     }
     loading: boolean = false
-    foto: string
+    foto: string = ""
     private subscription: Subscription;
     pacientes: PacienteNutri[] = []
 
@@ -35,7 +35,13 @@ export class PerfilNutriPage implements OnInit {
   }
 
   ionViewWillEnter(){
+    this.perfil.email = this.utilSvc.getElementInLocalStorage('correo')
+    this.perfil.fotoPerfil = "https://ionicframework.com/docs/img/demos/avatar.svg"
+    this.perfil.matricula = ""
+    this.perfil.nombre = ""
+    this.perfil.telefono = ""
     this.loading = true
+    this.foto = ""
     this.getDatos()
   }
 
@@ -70,7 +76,7 @@ editarFoto(){
 
 tomarImagenYRegistrar() {
   this.tomarFotografia().then(async () => {
-    if (this.foto != 'undefined') {
+    if (this.foto != 'undefined' && this.foto.length > 1) {
       this.utilSvc.presentLoading()
       let uid = this.utilSvc.getElementInLocalStorage('correo')
       let imagepath = `${uid}/Perfil/`
@@ -249,7 +255,7 @@ modificarDato(propiedad: string) {
         if (result.isConfirmed) {
           let userUpdt: Usuario = {
             cuentaActiva: false,
-            fechaDePausa: new Date().toISOString().substring(0, 10),
+            fechaDePausa: new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10),
             nutricionista: this.utilSvc.getElementInLocalStorage('nutricionista')
           }
           await this.firebaseSvc.updateDocument('Usuarios', this.utilSvc.getElementInLocalStorage('correo'), userUpdt)

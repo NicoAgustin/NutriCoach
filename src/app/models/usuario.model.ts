@@ -18,7 +18,8 @@ export interface Paciente {
 export interface PacienteXNutricionista {
     nombre: string,
     nutricionista: string,
-    perfilCompleto: boolean
+    perfilCompleto: boolean,
+    paciente: string
 }
 
 export interface Nutricionista {
@@ -32,5 +33,12 @@ export interface Nutricionista {
 export interface PacienteNutri {
     nombre: string,
     correo: string
+}
+
+export interface PacienteListado {
+    nombre: string,
+    correo: string,
+    imc: string,
+    tendencia: string
 }
 

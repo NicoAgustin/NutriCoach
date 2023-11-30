@@ -9,7 +9,7 @@
 
 <ion-content [fullscreen]="true">
 
-  <div *ngIf="!hayRecomendaciones">
+  <div *ngIf='!(recomendacion.almuerzo.length > 0) && !(recomendacion.cena.length > 0)'>
     <ion-card color="light">
       <ion-card-header>
         <ion-card-title class="ion-text-center"> <b>El paciente aún no cuenta con recomendaciones</b></ion-card-title>
@@ -24,7 +24,7 @@
     </ion-card>
   </div>
 
-  <ion-card *ngIf='recomendacion.cena.length > 0' color="warning">
+  <ion-card *ngIf='recomendacion.almuerzo.length > 0' color="warning">
     <ion-card-header>
       <ion-card-title class="ion-text-center">Almuerzo</ion-card-title>
     </ion-card-header>

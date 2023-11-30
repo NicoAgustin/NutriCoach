@@ -4,7 +4,6 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
 
 
-
 register();
 
 @Component({
@@ -14,7 +13,7 @@ register();
 })
 export class AppComponent {
   constructor(
-    private platform: Platform
+    private platform: Platform,
   ) {
 
     this.initializeApp();

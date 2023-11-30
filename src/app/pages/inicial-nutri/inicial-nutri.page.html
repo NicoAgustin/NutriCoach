@@ -6,44 +6,59 @@
 
 <ion-content [fullscreen]="true">
 
-<div *ngIf='pacientes.length > 0'>
-  <br>
-  <ion-searchbar [debounce]="500" placeholder="Buscar paciente"(ionInput)="handleInput($event)"></ion-searchbar>
-<div *ngIf="ingreso">
-  <ion-list>
-    <ion-item *ngFor="let result of results">
-      <ion-icon name="search-circle-outline" slot="start"></ion-icon>
-      <ion-label (click)="verPaciente(result)">{{ result.nombre }}</ion-label>
-    </ion-item>
-  </ion-list>
-</div>
-  <div *ngIf="!ingreso">
-    <ion-list [inset]="true">
-      <ion-item button detail="true" *ngFor="let paciente of pacientes">
-        <ion-icon (click)="editarOEliminarPaciente(paciente)" color="primary" size="large" name="create-outline" slot="start"></ion-icon>
-        <ion-label (click)="verPaciente(paciente)">{{ paciente.nombre }}</ion-label>
-      </ion-item>
-    </ion-list>
+  <div *ngIf="loading">
+
+    <ion-card class="ion-padding" color="light">
+      <ion-card-content *ngFor="let item of [1,1,1,1,1,1,1,1,1,1]">
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
   </div>
-</div>
 
-<div *ngIf='pacientes.length == 0'>
-  <ion-card color="light">
-    <ion-card-header>
-      <ion-card-title class="ion-text-center"><b>Aún no has dado de alta un paciente</b></ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-     <div class="contenedor">
-      <img class="plato"
-      id="logo1"
-      src="../../../assets/imagenes/registro-vacio.jpg"
-      alt=""
-      >
+  <div *ngIf="!loading">
+    <div *ngIf='pacientes.length > 0'>
+      <br>
+      <ion-searchbar [debounce]="500" placeholder="Buscar paciente"(ionInput)="handleInput($event)"></ion-searchbar>
+    <div *ngIf="ingreso">
+      <ion-list>
+        <ion-item *ngFor="let result of results">
+          <ion-icon name="search-circle-outline" slot="start"></ion-icon>
+          <ion-label (click)="verPaciente(result)">{{ result.nombre }}</ion-label>
+        </ion-item>
+      </ion-list>
     </div>
-    </ion-card-content>
-  </ion-card>
+      <div *ngIf="!ingreso">
+        <ion-list [inset]="true">
+          <ion-item button detail="true" *ngFor="let paciente of pacientesListado">
+            <ion-icon (click)="editarOEliminarPaciente(paciente)" color="primary" size="large" name="create-outline" slot="start"></ion-icon>
+           <ion-icon (click)="verPaciente(paciente)" name="ellipse" [color]='paciente.imc'></ion-icon>
+            <ion-label (click)="verPaciente(paciente)">&nbsp; {{ paciente.nombre }}</ion-label>
+            <ion-icon (click)="verPaciente(paciente)" *ngIf='paciente.tendencia !==""' [name]=paciente.tendencia [color]='(paciente.tendencia == "happy-outline") ? "success" : "danger"'></ion-icon>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+    
+    <div *ngIf='pacientes.length == 0'>
+      <ion-card color="light">
+        <ion-card-header>
+          <ion-card-title class="ion-text-center"><b>Aún no has dado de alta un paciente</b></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+         <div class="contenedor">
+          <img class="plato"
+          id="logo1"
+          src="../../../assets/imagenes/registro-vacio.jpg"
+          alt=""
+          >
+        </div>
+        </ion-card-content>
+      </ion-card>
+    
+    </div>
+    
+  </div>
 
-</div>
 
 
 

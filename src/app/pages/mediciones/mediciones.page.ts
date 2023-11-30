@@ -4,7 +4,7 @@ import { FirebaseService } from '../../services/firebase.service';
 import { UtilsService } from '../../services/utils.service';
 import { RegistroMedicion, MedicionPaciente } from '../../models/medicion.model';
 import { Highlight } from 'src/app/models/highlight.model';
-import { PacienteXNutricionista } from 'src/app/models/usuario.model';
+import { Paciente, PacienteXNutricionista } from 'src/app/models/usuario.model';
 
 @Component({
   selector: 'app-mediciones',
@@ -13,10 +13,10 @@ import { PacienteXNutricionista } from 'src/app/models/usuario.model';
 })
 export class MedicionesPage implements OnInit {
 
-  registroFecha: string = new Date().toISOString().substring(0, 10)
+  registroFecha: string = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10)
   hayRegistro: boolean = false
   highlightedDates: any[] = []
-  max: string = new Date().toISOString().substring(0, 10)
+  max: string = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10)
   medicion: MedicionPaciente = {
     peso: 0,
     talla: 0,
@@ -28,9 +28,10 @@ export class MedicionesPage implements OnInit {
   mediciones: RegistroMedicion[]
   loading: boolean = true
   correo: string = ""
-  nombrePaciente : string = "Aún no completaste tu perfil"
+  nombrePaciente : string = ""
   nombreNutricionista : string = ""
   pacienteNutricionista: PacienteXNutricionista;
+  registroCompleto: boolean = false
 
 
 
@@ -51,7 +52,7 @@ export class MedicionesPage implements OnInit {
   async ionViewWillEnter() {
     this.completarTitulo()
     if( this.correo !== this.utilSvc.getElementInLocalStorage('correo')){
-      this.registroFecha = new Date().toISOString().substring(0, 10)
+      this.registroFecha = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).toISOString().substring(0, 10)
       this.loading = true
       this.registroMediciones = []
       this.highlightedDates = []
@@ -60,11 +61,22 @@ export class MedicionesPage implements OnInit {
     }
   }
 
-  completarTitulo(){
-    this.nombrePaciente = this.utilSvc.getElementInLocalStorage('nombrePaciente')
-    this.nombreNutricionista
-    this.pacienteNutricionista = this.utilSvc.getElementInLocalStorage('pacienteNutricionista')
-    this.pacienteNutricionista.nombre == "" ? this.nombreNutricionista = "Aún no asignado" : this.nombreNutricionista = this.pacienteNutricionista.nombre
+  async completarTitulo(){
+    (await this.firebaseSvc.getDocument('PacientesXNutricionista', this.utilSvc.getElementInLocalStorage('correo'))).toPromise().then(async (resp) => {
+      if (typeof resp.data() !== 'undefined'){
+        this.pacienteNutricionista = resp.data() as PacienteXNutricionista
+        this.pacienteNutricionista.paciente == "" ? this.nombrePaciente = "Completar Perfil" : this.nombrePaciente = this.pacienteNutricionista.paciente  
+        this.pacienteNutricionista.nombre == "" ? this.nombreNutricionista = "Aún no asignado" : this.nombreNutricionista = this.pacienteNutricionista.nombre
+        this.utilSvc.setElementInLocalStorage('nombrePaciente', this.nombrePaciente)
+      } else {
+        this.nombrePaciente = "Completar Perfil"
+        this.nombreNutricionista = "Aún no asignado"
+      }
+    })
+    // this.nombrePaciente = this.utilSvc.getElementInLocalStorage('nombrePaciente')
+    // this.nombreNutricionista
+    // this.pacienteNutricionista = this.utilSvc.getElementInLocalStorage('pacienteNutricionista')
+    // this.pacienteNutricionista.nombre == "" ? this.nombreNutricionista = "Aún no asignado" : this.nombreNutricionista = this.pacienteNutricionista.nombre
   }
 
   async getMediciones() {
@@ -92,6 +104,7 @@ export class MedicionesPage implements OnInit {
       this.registroFecha = fecha.substring(0, 10)
       this.revisarRegistro(fecha)
       this.cargarHighlightFechas()
+      this.verificarRegistro()
     }
   }
 
@@ -152,6 +165,7 @@ export class MedicionesPage implements OnInit {
           return new Promise((resolve) => {
             if (Number(value) > 0 && Number(value) < 350) {
               this.medicion.peso = Number(value)
+              this.verificarRegistro()
               resolve()
             } else {
               resolve('Verifique el valor ingresado')
@@ -179,6 +193,7 @@ export class MedicionesPage implements OnInit {
           return new Promise((resolve) => {
             if (Number(value) > 0 && Number(value) < 300) {
               this.medicion.talla = Number(value)
+              this.verificarRegistro()
               resolve()
             } else {
               resolve('Verifique el valor ingresado')
@@ -205,6 +220,7 @@ export class MedicionesPage implements OnInit {
           return new Promise((resolve) => {
             if (Number(value) > 0 && Number(value) < 200) {
               this.medicion.cintura = Number(value)
+              this.verificarRegistro()
               resolve()
             } else {
               resolve('Verifique el valor ingresado')
@@ -231,6 +247,7 @@ export class MedicionesPage implements OnInit {
           return new Promise((resolve) => {
             if (Number(value) > 0 && Number(value) < 200) {
               this.medicion.ombligo = Number(value)
+              this.verificarRegistro()
               resolve()
             } else {
               resolve('Verifique el valor ingresado')
@@ -257,6 +274,7 @@ export class MedicionesPage implements OnInit {
           return new Promise((resolve) => {
             if (Number(value) > 0 && Number(value) < 200) {
               this.medicion.cadera = Number(value)
+              this.verificarRegistro()
               resolve()
             } else {
               resolve('Verifique el valor ingresado')
@@ -289,6 +307,11 @@ export class MedicionesPage implements OnInit {
         Swal.close()
       }
     })
+  }
+
+  verificarRegistro() {
+    this.registroCompleto = Object.values(this.medicion).every(valor => valor > 0);
+    console.log("Se verifica registro: " + this.registroCompleto)
   }
 
 

@@ -50,37 +50,37 @@
       </ion-item>
       <ion-item  (click)="cargarPerimetro(4)"  [color]='medicion.perAntebrazo == 0 ? "secondary" : "success"' class="medicion" >
         <ion-label>
-          <h2>Antebrazo</h2>
+          <h2>Antebrazo máximo</h2>
           <h1 *ngIf="medicion.perAntebrazo!=0" class="ion-text-center"><b>{{medicion.perAntebrazo}} cm</b></h1>
         </ion-label>
       </ion-item>
       <ion-item (click)="cargarPerimetro(5)"   [color]='medicion.perTorax == 0 ? "secondary" : "success"' class="medicion" >
         <ion-label>
-          <h2>Tórax</h2>
+          <h2>Tórax mesoesternal</h2>
           <h1 *ngIf="medicion.perTorax!=0" class="ion-text-center"><b>{{medicion.perTorax}} cm</b></h1>
         </ion-label>
       </ion-item>
       <ion-item (click)="cargarPerimetro(6)"   [color]='medicion.perCintura == 0 ? "secondary" : "success"' class="medicion" >
         <ion-label>
-          <h2>Cintura</h2>
+          <h2>Cintura mínima</h2>
           <h1 *ngIf="medicion.perCintura!=0" class="ion-text-center"><b>{{medicion.perCintura}} cm</b></h1>
         </ion-label>
       </ion-item>
       <ion-item (click)="cargarPerimetro(7)"  [color]='medicion.perCadera == 0 ? "secondary" : "success"' class="medicion" >
         <ion-label>
-          <h2>Cadera</h2>
+          <h2>Cadera máxima</h2>
           <h1 *ngIf="medicion.perCadera!=0" class="ion-text-center"><b>{{medicion.perCadera}} cm</b></h1>
         </ion-label>
       </ion-item>
       <ion-item (click)="cargarPerimetro(8)"  [color]='medicion.perMuslo == 0 ? "secondary" : "success"' class="medicion" >
         <ion-label>
-          <h2>Muslo</h2>
+          <h2>Muslo máximo</h2>
           <h1 *ngIf="medicion.perMuslo!=0" class="ion-text-center"><b>{{medicion.perMuslo}} cm</b></h1>
         </ion-label>
       </ion-item>
       <ion-item (click)="cargarPerimetro(9)"  [color]='medicion.perPantorrilla == 0 ? "secondary" : "success"' class="medicion" >
         <ion-label>
-          <h2>Pantorrilla</h2>
+          <h2>Pantorrilla máxima</h2>
           <h1 *ngIf="medicion.perPantorrilla!=0" class="ion-text-center"><b>{{medicion.perPantorrilla}} cm</b></h1>
         </ion-label>
       </ion-item>
@@ -116,13 +116,13 @@
       </ion-item>
       <ion-item (click)="cargarPliegue(5)" [color]='medicion.pliMuslo == 0 ? "secondary" : "success"' class="medicion" button >
         <ion-label>
-          <h2>Muslo</h2>
+          <h2>Muslo máximo</h2>
           <h1 *ngIf="medicion.pliMuslo!=0" class="ion-text-center"><b>{{medicion.pliMuslo}} mm</b></h1>
         </ion-label>
       </ion-item>
       <ion-item (click)="cargarPliegue(6)" [color]='medicion.pliPantorrilla == 0 ? "secondary" : "success"' class="medicion" button >
         <ion-label>
-          <h2>Pantorrilla</h2>
+          <h2>Pantorrilla máxima</h2>
           <h1 *ngIf="medicion.pliPantorrilla!=0" class="ion-text-center"><b>{{medicion.pliPantorrilla}} mm</b></h1>
         </ion-label>
       </ion-item>
